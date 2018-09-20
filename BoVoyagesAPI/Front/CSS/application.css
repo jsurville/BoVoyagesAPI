@@ -1,0 +1,80 @@
+.container-fluid {
+    margin-top: 25px;
+}
+
+.toolbar {
+    list-style: none;
+    padding-left: 0;
+}
+
+    .toolbar li {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+.actions {
+    margin-top: 25px;
+}
+
+
+button {
+    margin-right: 15px;
+}
+
+.actions button, .actions a {
+    margin-right: 15px;
+}
+
+/* Loader */
+.loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1.5s linear infinite;
+}
+
+.Tache {
+    border: solid 1px lightgray;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+}
+
+    .Tache input[type=checkbox] {
+        margin-right: 8px;
+    }
+
+    .Tache button {
+        float: right;
+        display: none;
+    }
+
+    .Tache:hover {
+        border: solid 1px gray;
+        border-left: none;
+        border-right: none;
+    }
+
+    .Tache:not(.alert-success):hover {
+        background-color: whitesmoke;
+    }
+
+    .Tache:hover button {
+        display: block;
+    }
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loader (fin) */

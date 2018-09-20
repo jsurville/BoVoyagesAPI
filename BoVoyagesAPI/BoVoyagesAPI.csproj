@@ -43,6 +43,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6752e45808247c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
@@ -80,18 +89,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="Front\CSS\application.css" />
+    <Content Include="Front\CSS\bootstrap-alert.min.css" />
+    <Content Include="Front\Html\Destinations.html" />
+    <Content Include="Front\Html\Voyage.html" />
+    <Content Include="Front\Html\Voyages.html" />
+    <Content Include="Front\JS\application.js" />
+    <Content Include="Front\JS\bootstrap-alert.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="index.html" />
+    <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AgenceVoyagesController.cs" />
+    <Compile Include="Controllers\AssurancesController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\DestinationsController.cs" />
+    <Compile Include="Controllers\DossierReservationsController.cs" />
+    <Compile Include="Controllers\ParticipantsController.cs" />
+    <Compile Include="Controllers\VoyagesController.cs" />
+    <Compile Include="Data\BoVoyagesContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809200807227_Init.cs" />
+    <Compile Include="Migrations\201809200807227_Init.Designer.cs">
+      <DependentUpon>201809200807227_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AgenceVoyage.cs" />
+    <Compile Include="Models\Assurance.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Destination.cs" />
+    <Compile Include="Models\DossierReservation.cs" />
+    <Compile Include="Models\Participant.cs" />
+    <Compile Include="Models\Personne.cs" />
+    <Compile Include="Models\Voyage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -101,8 +147,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201809200807227_Init.resx">
+      <DependentUpon>201809200807227_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
