@@ -51,7 +51,7 @@
                 <br />
             </ul>
         </div>
-        <div>
+        <div >
             
                 <label class="col-1">Id</label>
                 <label class="col-2">Continent</label>
@@ -78,13 +78,13 @@
                     divListeDestinations.empty();
                     if (destinations.length > 0) {
                         for (var destination of destinations) {
-                            var divDestination = $('<div class="Destination"></div>');
+                            var divDestination = $('<div class="Destination alert alert-info col-12""></div>');
                             RemplirDivDestination(divDestination, destination);
                             divListeDestinations.append(divDestination);
                         }
                     }
                     else {
-                        divListeDestinations.append($('<p class="lead">Aucun Reservation pour le moment...</p>'));
+                        divListeDestinations.append($('<p class="lead">Aucune Destination pour le moment...</p>'));
                     }
                 }
             });
@@ -92,9 +92,13 @@
 
         function RemplirDivDestination(divDestination, destination) {
             divDestination.empty();
-            divDestination.data('id', destination.ID);
-            divDestination.append($('<span></span>').text(destination.Pays));
-
+            divDestination.data('id', destination.Id);
+            divDestination.append($('<label class="col-1"></label>').text(destination.Id));
+            divDestination.append($('<label class="col-2"></label>').text(destination.Continent));
+            divDestination.append($('<label class="col-2"></label>').text(destination.Pays));
+            divDestination.append($('<label class="col-2"></label>').text(destination.Region));
+            divDestination.append($('<label class="col-4"></label>').text(destination.Description));
+                                                       
             var boutonSupprimer = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
             boutonSupprimer.on('click', function () {
                 var idDestination = $(this).closest('.Destination').data('id');

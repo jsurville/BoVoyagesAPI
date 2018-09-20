@@ -83,7 +83,7 @@
             </form>
             <div class="actions">
                 <button class="btn btn-primary" onclick="return Enregistrer();">Enregistrer</button>
-                <a href="/" class="btn btn-light">Annuler</a>
+                <a href="Client.html" class="btn btn-light">Annuler</a>
             </div>
         </div>
         <div>
@@ -152,7 +152,10 @@
 
                 return false;
             }
-            
+            $(document).ready(function () {
+
+                $('#Nom').focus();
+            });
         </script>
 </body>
 </html >

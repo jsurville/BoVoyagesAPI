@@ -25,13 +25,13 @@
                     <a class="nav-link" href="/Front/Html/Participants.html">Participants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/Front/Html/Reservations.html">Reservations</a>
+                    <a class="nav-link active" href="/Front/Html/Reservation.html">Formulaire Réservation</a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="container-fluid">
-        <h3>Nouvelle réservation</h3>
+        <h3>Nouveau Dossier de Réservation</h3>
 
         <form novalidate>
             <div class="form-group">
@@ -83,7 +83,13 @@
         </form>
         <div class="actions">
             <button class="btn btn-primary" onclick="return Enregistrer();">Enregistrer</button>
-            <a href="/" class="btn btn-light">Annuler</a>
+            <a href="/Front/Html/Reservation.html" class="btn btn-light">Annuler</a>
+        </div>
+        <div>
+            <ul class="toolbar">
+                <li style="float:right"><a href="/Front/html/Reservations.html" class="btn btn-light">Retour</a></li>
+                <br>
+            </ul>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
