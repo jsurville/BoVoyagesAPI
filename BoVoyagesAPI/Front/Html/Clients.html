@@ -31,7 +31,103 @@
         </div>
     </nav>
 
+    <div class="container col-12 ">
+        <h1>Liste des Clients</h1>
+        <br />
+        <ul class="toolbar">
+            <li style="float:right"><a href="/Front/html/Client.html" class="btn btn-primary" >Nouveau Client</a></li>
+            <br>
+        </ul>
+        <div>
+            <label class="col-1">Mr/Mme</label>
+            <label class="col-1">Nom</label>
+            <label class="col-1">Prénom</label>
+            <label class="col-2">Email</label>
+            <label class="col-2">Tel.</label>
+            <label class="col-2">Adresse</label>
+            <label class="col-2">Date de Naissance</label>
+        </div>
+        <div id="listeClients" class="row">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script src="/Front/js/bootstrap-alert.min.js"></script>
+
+    <script src="/Front/js/application.js"></script>
+    <script>
+        LoadClients();
+        function LoadClients() {
+            $.ajax({
+                url: '/api/Clients',
+                success: function (clients) {
+                   
+                    var divListeClients = $('#listeClients');
+                    divListeClients.empty();
+                    for (client of clients) {
+                        let divClient = $('<div class="Client alert alert-info col-12"> </div>');
+                        let idClient = divClient.attr("data-id", client.Id);
+
+                        var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                        buttonDelete.on('click', function () {
+                            // Affichage d'une confirmation
+                            $.bsAlert.confirmTitle = 'Suppression';
+                            $.bsAlert.closeDisplay = 'Non';
+                            $.bsAlert.sureDisplay = 'Oui';
+                            $.bsAlert.confirm("Es-tu sûr?", () => {
+                                let div = $(this).closest(".Client");
+                                let idClient = div.attr("data-id");
+                                SupprimerClient(idClient);
+                            });
+                        });
+                        var buttonModif = $('<button class="btn btn-primary btn-sm" style="float:right"><i class="fas fa-edit"></i></button>');
+                        buttonModif.on('click', function () {
+                            // Affichage d'une confirmation
+                            
+                                var div = $(this).closest(".Client");
+                            alert("En cours");
+                            });
+                        
+                        divClient.append(buttonDelete);
+                        divClient.append(buttonModif);
+                        if (client.Civilite == 2) {
+                            client.Civilite="Mr";
+                        }
+                        if (client.Civilite == 1) {
+                            client.Civilite = "Mme";
+                        }
+                       console.log(client.Civilite);
+                       
+                        divClient.append($('<label class="col-1"></label>').text(client.Civilite));
+                        divClient.append($('<label class="col-1" ></label>').text(client.Nom));
+                        divClient.append($('<label class="col-1"></label>').text(client.Prenom));
+                        divClient.append($('<label class="col-2"></label>').text(client.Email));
+                        divClient.append($('<label class="col-2"></label>').text(client.Telephone));
+                        divClient.append($('<label class="col-2"></label>').text(client.Adresse));
+                        divClient.append($('<label class="col-2"></label>').text(client.DateNaissance));
+                        divListeClients.append(divClient); 
+                    }
+                }
+            });
+           
+        }
+
+        function SupprimerClient(idClient) {
+           
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/Clients/' + idClient,
+                success: function () {
+                    LoadClients();
+                    alert("Le Client a été supprimé")
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(LoadClients);
+    </script>
 </body>
-</html>
+</html >

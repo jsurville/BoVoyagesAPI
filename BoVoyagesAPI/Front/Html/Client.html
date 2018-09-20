@@ -9,9 +9,18 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/Front/CSS/application.css" />
+    <style>
+        .form-group {
+        padding:5px;
+        }
+        div.row {
+            padding: 5px;
+        }
+    </style>
+
 </head>
 <body>
-    <nav style="color:aquamarine"class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav style="color:aquamarine" class="navbar navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand" href="/Front/Html/Voyages.html"><i class="fas fa-check-double"></i> BoVoyage</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
@@ -19,7 +28,7 @@
                     <a class="nav-link" href="/Front/Html/Destinations.html">Destinations <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/Front/Html/Clients.html">Clients</a>
+                    <a class="nav-link active" href="/Front/Html/Clients.html">Formulaire Client</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Front/Html/Participants.html">Participants</a>
@@ -31,7 +40,119 @@
         </div>
     </nav>
 
+    <div class="container col-12 ">
+        <h1>Formulaire Client</h1>
+        <br />
+        <div>
+            <form novalidate class="row">
+                <div class="form-group col-2">
+                    <label for="Civilite">Civilité</label>
+                    <input type="radio" name="choix" class="civilite" id="mme" value="1" /> Mme
+                    <input type="radio" name="choix" class="civilite" id="mr" value="2" /> Mr
+                </div>
+                <div class="form-group col-5">
+                    <label for="Nom">Nom</label>
+                    <input type="text" class="form-control" id="Nom" required />
+                    <div class="invalid-feedback">
+                        Champ requis
+                    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+                    <label for="Prenom">Prenom</label>
+                    <input type="text" class="form-control" id="Prenom" required />
+                    <div class="invalid-feedback">
+                        Champ requis
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="DateNaissance">Date de Naissance</label>
+                    <input type="date" class="form-control" id="DateNaissance" />
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="text" class="form-control" id="Email" />
+                </div>
+                <div class="form-group">
+                    <label for="NumTel">Numéro de Téléphone</label>
+                    <input type="text" class="form-control" id="NumTel" />
+                </div>
+                <br />
+                <div class="form-group col-8">
+                    <label for="Adresse">Adresse</label>
+                    <input type="text" class="form-control" id="Adresse" />
+                </div>
+            </form>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="return Enregistrer();">Enregistrer</button>
+                <a href="/" class="btn btn-light">Annuler</a>
+            </div>
+        </div>
+        <div>
+            <ul class="toolbar">
+                <li style="float:right"><a href="/Front/html/Clients.html" class="btn btn-light">Retour</a></li>
+                <br>
+            </ul>
+        </div>
+        
+    </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
+        <script src="/Front/js/bootstrap-alert.min.js"></script>
+
+        <script src="/Front/js/application.js"></script>
+        <script>
+
+            function Valider() {
+                var form = $('form');
+                let estValide = form[0].checkValidity();
+                form.addClass("was-validated");
+
+                return estValide;
+            }
+
+            function Enregistrer() {
+                if (!Valider()) {
+                    return false;
+                }
+                let valeur = $('input[name=choix]:checked').val();
+                if (valeur == 1) {
+                    valeur="Mme"
+                }
+                if (valeur == 1) {
+                    valeur = "Mr"
+                }
+                let client = {
+                    Civilite: valeur,
+                    Nom: $('#Nom').val(),
+                    Prenom: $('#Prenom').val(),
+                    DateNaissance: $('#DateNaissance').val(),
+                    Email: $('#Email').val(),
+                    Telephone: $('#NumTel').val(),
+                    Adresse: $('#Adresse').val()
+                };
+                
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Clients',
+                    data: client,
+                    success: function () {
+                        $('form')[0].reset();
+                        $('form').removeClass('was-validated');
+                        alert("Le Client a bien été enregistré ")
+                        //window.location.href = '/index.html';
+                    },
+                    error: function () {
+                        alert("Impossible d'enregistrer ce nouveau Client  ");
+                    }
+                });
+
+                return false;
+            }
+            
+        </script>
 </body>
-</html>
+</html >

@@ -30,11 +30,11 @@ li a {
     text-decoration: none;
     height: 100%;
 }
-li a:hover {
-    background-color: #12e878;
-    text-decoration: none;
-    color: #9ef5ed;
-}
+    li a:hover {
+        background-color: #555;
+        text-decoration: none;
+        color: RGB(70,100,170);
+    }
 
 button {
     margin-right: 15px;
@@ -54,35 +54,39 @@ button {
     animation: spin 1.5s linear infinite;
 }
 
-.Tache {
+.Client {
     border: solid 1px lightgray;
     border-radius: 0;
     border-left: none;
     border-right: none;
     padding: 10px;
     color: cornflowerblue;
+
 }
 
-    .Tache input[type=checkbox] {
+div {
+    border: none;
+}
+    .Client input[type=checkbox] {
         margin-right: 8px;
     }
 
-    .Tache button {
+    .Client button {
         float: right;
         display: none;
     }
 
-    .Tache:hover {
+    .Client:hover {
         border: solid 1px gray;
         border-left: none;
         border-right: none;
     }
 
-    .Tache:not(.alert-success):hover {
+    .Client:not(.alert-success):hover {
         background-color: whitesmoke;
     }
 
-    .Tache:hover button {
+    .Client:hover button {
         display: block;
     }
 
