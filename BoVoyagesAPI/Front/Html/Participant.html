@@ -72,6 +72,7 @@
                 <div class="form-group col-2">
                     <label for="NumDossier">N° Dossier</label>
                     <select class="form-control" id="NumDossier" required></select>
+
                 </div>
                 <div class="form-group">
                     <label for="DateNaissance">Date de Naissance</label>
@@ -123,13 +124,10 @@
             return estValide;
         }
 
-
         function Enregistrer() {
             if (!Valider()) {
                 return false;
             }
-            
-            
             let civil = $('input[name=choix]:checked').val();
             if (civil == 1) {
                 civil = "Mme"
@@ -137,8 +135,6 @@
             if (civil == 1) {
                 civil = "Mr"
             }
-            
-
             let participant = {
                 NumeroUnique: $('#NumUnique').val(),
                 DossierReservationId: $('#NumDossier').val(),
@@ -150,7 +146,6 @@
                 Telephone: $('#NumTel').val(),
                 Adresse: $('#Adresse').val()
             };
-
 
             $.ajax({
                 type: 'POST',
@@ -169,6 +164,31 @@
 
             return false;
         }
+
+        function LoadDossierReservations() {
+            $.ajax({
+                type: 'GET',
+                url: '/api/DossierReservations/',
+                success: function (dossiers) {
+                    var select = $("#NumDossier");
+                    select.empty();
+                    select.append($('<option></option>'));
+
+                    for (dossier of dossiers) {
+                        var option = $('<option></option>');
+                        option.val(dossier.Id);
+                        option.text(dossier.NumeroUnique);
+                        select.append(option);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            LoadDossierReservations();
+            $(".civilite").focus();
+        });
+        
     </script>
 </body>
 </html >
