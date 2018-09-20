@@ -82,9 +82,9 @@
                     var divListeParticipants = $("#listeParticipants");
                     divListeParticipants.empty();
                     for (participant of participants) {
-                        let divParticipant = $('<div class="Client alert alert-info col-12"> </div>');
-                        let numeroParticipant = divParticipant.attr("data-numeroUnique", participant.NumeroUnique);
-
+                        let divParticipant = $('<div class="Participant alert alert-info col-12"> </div>');
+                        divParticipant.attr("data-id", participant.Id);
+                        
                         if (participant.Civilite == 2) {
                             participant.Civilite = "Mr";
                         }
@@ -99,9 +99,11 @@
                             $.bsAlert.closeDisplay = 'Non';
                             $.bsAlert.sureDisplay = 'Oui';
                             $.bsAlert.confirm("Es-tu sûr?", () => {
-                                let div = $(this).closest(".Client");
-                                let idClient = div.attr("data-id");
-                                SupprimerClient(idClient);
+                                let divParticipant = $(this).closest(".Participant");
+                                let id = divParticipant.attr("data-id");
+                                console.log(id);
+                                SupprimerParticipant(id);
+
                             });
                         });
                         divParticipant.append(buttonDelete);
@@ -116,7 +118,20 @@
             })
         };
 
-
+        function SupprimerParticipant(idParticipant) {
+            console.log(idParticipant);
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/Participants/' + idParticipant,
+                success: function () {
+                    jQuery('#listeParticipants').empty();
+                    alert("Le Participant a été supprimé")
+                    
+                    LoadParticipants();
+                    
+                }
+            });
+        }
 
 
     </script>
