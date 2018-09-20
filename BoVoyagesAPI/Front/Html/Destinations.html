@@ -60,7 +60,7 @@
                 <label class="col-3">Description</label>
             
         </div>
-        <div id="listeParticipants" class="col-12">
+        <div id="listeDestinations" class="col-12">
 
         </div >
     </div>
@@ -68,82 +68,86 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="/Front/JS/application.js"></script>
     <script>
-        function LoadCategories() {
-            var divListeCategories = $('#listeCategories');
-            setLoader(divListeCategories);
+        function LoadDestinations() {
+            var divListeDestinations = $('#listeDestinations');
+            setLoader(divListeDestinations);
 
             $.ajax({
-                url: '/api/categories',
-                success: function (categories) {
-                    divListeCategories.empty();
-
-                    for (var categorie of categories) {
-                        var divCategorie = $('<div class="Categorie"></div>');
-                        RemplirDivCategorie(divCategorie, categorie);
-                        divListeCategories.append(divCategorie);
+                url: '/api/Destinations',
+                success: function (destinations) {
+                    divListeDestinations.empty();
+                    if (destinations.length > 0) {
+                        for (var destination of destinations) {
+                            var divDestination = $('<div class="Destination"></div>');
+                            RemplirDivDestination(divDestination, destination);
+                            divListeDestinations.append(divDestination);
+                        }
+                    }
+                    else {
+                        divListeDestinations.append($('<p class="lead">Aucun Reservation pour le moment...</p>'));
                     }
                 }
             });
         }
 
-        function RemplirDivCategorie(divCategorie, categorie) {
-            divCategorie.empty();
-            divCategorie.data('id', categorie.ID);
-            divCategorie.append($('<span></span>').text(categorie.Nom));
+        function RemplirDivDestination(divDestination, destination) {
+            divDestination.empty();
+            divDestination.data('id', destination.ID);
+            divDestination.append($('<span></span>').text(destination.Pays));
 
             var boutonSupprimer = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
             boutonSupprimer.on('click', function () {
-                var idCategorie = $(this).closest('.Categorie').data('id');
-                Supprimer(idCategorie);
+                var idDestination = $(this).closest('.Destination').data('id');
+                Supprimer(idDestination);
             });
-            divCategorie.append(boutonSupprimer);
+            divDestination.append(boutonSupprimer);
 
-            var boutonModifier = $('<button class="btn btn-primary btn-sm"><i class="fas fa-pen"></i></button>');
-            boutonModifier.on('click', function () {
-                Modifier($(this));
-            });
-            divCategorie.append(boutonModifier);
+            //var boutonModifier = $('<button class="btn btn-primary btn-sm"><i class="fas fa-pen"></i></button>');
+            //boutonModifier.on('click', function () {
+            //    Modifier($(this));
+            //});
+            //divDestination.append(boutonModifier);
         }
 
-        function Modifier(bouton) {
-            var div = bouton.closest('.Categorie');
+        //function Modifier(bouton) {
+        //    var div = bouton.closest('.Destination');
 
-            var span = div.find('span');
-            var nom = span.text();
-            div.data('nom', nom); // je stocke le nom dans le div en cas d'annulation
+        //    var span = div.find('span');
+        //    var nom = span.text();
+        //    div.data('nom', nom); // je stocke le nom dans le div en cas d'annulation
 
-            div.empty();
+        //    div.empty();
 
-            var input = $('<input type="text"/>').val(span.text());
-            div.append(input);
-            input.focus();
-            input.select();
-            input.on('keyup', function (event) {
-                var divCategorie = $(this).closest('.Categorie');
-                switch (event.which) {
-                    case 13:/*ENTER*/
-                        EnregistrerModification(divCategorie);
-                        break;
-                    case 27:/*ESCAPE*/
-                        AnnulerModification(divCategorie);
-                        break;
-                }
-            });
+        //    var input = $('<input type="text"/>').val(span.text());
+        //    div.append(input);
+        //    input.focus();
+        //    input.select();
+        //    input.on('keyup', function (event) {
+        //        var divCategorie = $(this).closest('.Categorie');
+        //        switch (event.which) {
+        //            case 13:/*ENTER*/
+        //                EnregistrerModification(divCategorie);
+        //                break;
+        //            case 27:/*ESCAPE*/
+        //                AnnulerModification(divCategorie);
+        //                break;
+        //        }
+        //    });
 
-            var boutonAnnuler = $('<button class="btn btn-secondary btn-sm">Annuler</button>');
-            boutonAnnuler.on('click', function () {
-                let divCategorie = $(this).closest('.Categorie');
-                AnnulerModification(divCategorie);
-            });
-            div.append(boutonAnnuler);
+        //    var boutonAnnuler = $('<button class="btn btn-secondary btn-sm">Annuler</button>');
+        //    boutonAnnuler.on('click', function () {
+        //        let divCategorie = $(this).closest('.Categorie');
+        //        AnnulerModification(divCategorie);
+        //    });
+        //    div.append(boutonAnnuler);
 
-            var boutonEnregistrer = $('<button class="btn btn-primary btn-sm">Enregistrer</button>');
-            boutonEnregistrer.on('click', function () {
-                EnregistrerModification($(this).closest('.Categorie'));
-            });
+        //    var boutonEnregistrer = $('<button class="btn btn-primary btn-sm">Enregistrer</button>');
+        //    boutonEnregistrer.on('click', function () {
+        //        EnregistrerModification($(this).closest('.Categorie'));
+        //    });
 
-            div.append(boutonEnregistrer);
-        }
+        //    div.append(boutonEnregistrer);
+        //}
 
         function Ajouter() {
             $.ajax({
@@ -162,12 +166,12 @@
         function Supprimer(idCategorie) {
             $.ajax({
                 type: 'DELETE',
-                url: '/api/categories/' + idCategorie,
+                url: '/api/Destinations/' + idDestination,
                 success: function () {
-                    LoadCategories();
+                    LoadDestinations();
                 },
                 error: function () {
-                    alert('Impossible de supprimer. Peut-être la catégorie est liée à une tache?');
+                    alert('Impossible de supprimer. Peut-être la Destination est liée à une tache?');
                 }
             });
         }
@@ -195,9 +199,8 @@
         }
 
         $(document).ready(function () {
-            LoadCategories();
+            LoadDestinations();
 
-            $('#Nom').focus();
         });
     </script>
 </body>

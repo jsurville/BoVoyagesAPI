@@ -75,51 +75,58 @@
             <script>
                 LoadClients();
                 function LoadClients() {
+                    var divListeClients = $('#listeClients');
+                    setLoader(divListeClients);
                     $.ajax({
                         url: '/api/Clients',
                         success: function (clients) {
 
-                            var divListeClients = $('#listeClients');
+                           
                             divListeClients.empty();
-                            for (client of clients) {
-                                let divClient = $('<div class="Client alert alert-info col-12"> </div>');
-                                let idClient = divClient.attr("data-id", client.Id);
+                            if (clients.length > 0) {
+                                for (client of clients) {
+                                    let divClient = $('<div class="Client alert alert-info col-12"> </div>');
+                                    let idClient = divClient.attr("data-id", client.Id);
 
-                                var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
-                                buttonDelete.on('click', function () {
-                                    // Affichage d'une confirmation
-                                    $.bsAlert.confirmTitle = 'Suppression';
-                                    $.bsAlert.closeDisplay = 'Non';
-                                    $.bsAlert.sureDisplay = 'Oui';
-                                    $.bsAlert.confirm("Es-tu sûr?", () => {
-                                        let div = $(this).closest(".Client");
-                                        let idClient = div.attr("data-id");
-                                        SupprimerClient(idClient);
+                                    var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                                    buttonDelete.on('click', function () {
+                                        // Affichage d'une confirmation
+                                        $.bsAlert.confirmTitle = 'Suppression';
+                                        $.bsAlert.closeDisplay = 'Non';
+                                        $.bsAlert.sureDisplay = 'Oui';
+                                        $.bsAlert.confirm("Es-tu sûr?", () => {
+                                            let div = $(this).closest(".Client");
+                                            let idClient = div.attr("data-id");
+                                            SupprimerClient(idClient);
+                                        });
                                     });
-                                });
-                                var buttonModif = $('<button class="btn btn-primary btn-sm" style="float:right"><i class="fas fa-edit"></i></button>');
-                                buttonModif.on('click', function () {
-                                    ModifierClient($(this));
-                                });
+                                    var buttonModif = $('<button class="btn btn-primary btn-sm" style="float:right"><i class="fas fa-edit"></i></button>');
+                                    buttonModif.on('click', function () {
+                                        ModifierClient($(this));
+                                    });
 
-                                divClient.append(buttonDelete);
-                                divClient.append(buttonModif);
-                                if (client.Civilite == 2) {
-                                    client.Civilite = "Mr";
-                                }
-                                if (client.Civilite == 1) {
-                                    client.Civilite = "Mme";
-                                }
-                               // console.log(client.Civilite);
+                                    divClient.append(buttonDelete);
+                                    divClient.append(buttonModif);
+                                    if (client.Civilite == 2) {
+                                        client.Civilite = "Mr";
+                                    }
+                                    if (client.Civilite == 1) {
+                                        client.Civilite = "Mme";
+                                    }
+                                    // console.log(client.Civilite);
 
-                                divClient.append($('<label class="col-1"></label>').text(client.Civilite));
-                                divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
-                                divClient.append($('<label class="col-1"></label>').text(client.Prenom));
-                                divClient.append($('<label class="col-2"></label>').text(client.Email));
-                                divClient.append($('<label class="col-2"></label>').text(client.Telephone));
-                                divClient.append($('<label class="col-2"></label>').text(client.Adresse));
-                                divClient.append($('<label class="col-2"></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
-                                divListeClients.append(divClient);
+                                    divClient.append($('<label class="col-1"></label>').text(client.Civilite));
+                                    divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
+                                    divClient.append($('<label class="col-1"></label>').text(client.Prenom));
+                                    divClient.append($('<label class="col-2"></label>').text(client.Email));
+                                    divClient.append($('<label class="col-2"></label>').text(client.Telephone));
+                                    divClient.append($('<label class="col-2"></label>').text(client.Adresse));
+                                    divClient.append($('<label class="col-2"></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
+                                    divListeClients.append(divClient);
+                                }
+                            }
+                            else {
+                                divListeClients.append($('<p class="lead">Aucun Client pour le moment...</p>'));
                             }
                         }
                     });

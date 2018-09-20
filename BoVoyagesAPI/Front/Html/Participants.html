@@ -76,44 +76,51 @@
     <script>
 
         function LoadParticipants() {
+            var divListeParticipants = $('#listeParticipants');
+            setLoader(divListeParticipants);
             $.ajax({
                 type: 'GET',
                 url: '/api/Participants/',
                 success: function (participants) {
-                    var divListeParticipants = $("#listeParticipants");
+                  
                     divListeParticipants.empty();
-                    for (participant of participants) {
-                        let divParticipant = $('<div class="Participant alert alert-info col-12"> </div>');
-                        divParticipant.attr("data-id", participant.Id);
-                        
-                        if (participant.Civilite == 2) {
-                            participant.Civilite = "Mr";
-                        }
-                        if (participant.Civilite == 1) {
-                            participant.Civilite = "Mme";
-                        }
+                    if (participants.length > 0) {
+                        for (participant of participants) {
+                            let divParticipant = $('<div class="Participant alert alert-info col-12"> </div>');
+                            divParticipant.attr("data-id", participant.Id);
 
-                        var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
-                        buttonDelete.on('click', function () {
-                            // Affichage d'une confirmation
-                            $.bsAlert.confirmTitle = 'Suppression';
-                            $.bsAlert.closeDisplay = 'Non';
-                            $.bsAlert.sureDisplay = 'Oui';
-                            $.bsAlert.confirm("Es-tu sûr?", () => {
-                                let divParticipant = $(this).closest(".Participant");
-                                let id = divParticipant.attr("data-id");
-                                console.log(id);
-                                SupprimerParticipant(id);
+                            if (participant.Civilite == 2) {
+                                participant.Civilite = "Mr";
+                            }
+                            if (participant.Civilite == 1) {
+                                participant.Civilite = "Mme";
+                            }
 
+                            var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                            buttonDelete.on('click', function () {
+                                // Affichage d'une confirmation
+                                $.bsAlert.confirmTitle = 'Suppression';
+                                $.bsAlert.closeDisplay = 'Non';
+                                $.bsAlert.sureDisplay = 'Oui';
+                                $.bsAlert.confirm("Es-tu sûr?", () => {
+                                    let divParticipant = $(this).closest(".Participant");
+                                    let id = divParticipant.attr("data-id");
+                                    console.log(id);
+                                    SupprimerParticipant(id);
+
+                                });
                             });
-                        });
-                        divParticipant.append(buttonDelete);
-                        divParticipant.append($('<label class="col-1"></label>').text(participant.NumeroUnique));
-                        divParticipant.append($('<label class="col-2"></label>').text(participant.DossierReservationId));
-                        divParticipant.append($('<label class="col-3"></label>').text(participant.NomComplet));
-                        divParticipant.append($('<label class="col-2"></label>').text(participant.Telephone));
-                        divParticipant.append($('<label class="col-2"></label>').text(moment(participant.DateNaissance).format('DD/MM/YYYY')));
-                        divListeParticipants.append(divParticipant);
+                            divParticipant.append(buttonDelete);
+                            divParticipant.append($('<label class="col-1"></label>').text(participant.NumeroUnique));
+                            divParticipant.append($('<label class="col-2"></label>').text(participant.DossierReservationId));
+                            divParticipant.append($('<label class="col-3"></label>').text(participant.NomComplet));
+                            divParticipant.append($('<label class="col-2"></label>').text(participant.Telephone));
+                            divParticipant.append($('<label class="col-2"></label>').text(moment(participant.DateNaissance).format('DD/MM/YYYY')));
+                            divListeParticipants.append(divParticipant);
+                        }
+                    }
+                    else {
+                        divListeParticipants.append($('<p class="lead">Aucun Participant pour le moment...</p>'));
                     }
                 }
             })

@@ -34,27 +34,27 @@
         </div>
     </nav>
     <div class="container-fluid">
-        <div id="listeCategories">
+        <div id="listeDestinations">
 
         </div>
 
         <div class="alert alert-secondary" style="margin-top: 15px">
-            <input type="text" id="Nom" placeholder="Nouvelle catégorie" />
+            <input type="text" id="Nom" placeholder="Nouvelle Destination" />
             <button class="btn btn-primary" onclick="Ajouter()">
                 Ajouter
             </button>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="/Front/JS/application.js"></script>
+    <script src="/Front/js/application.js"></script>
     <script>
         function LoadCategories() {
-            var divListeCategories = $('#listeCategories');
-            setLoader(divListeCategories);
+            var listeDestinations = $('#listeDestinations');
+            setLoader(listeDestinations);
 
             $.ajax({
-                url: '/api/categories',
-                success: function (categories) {
+                url: '/api/Destinations',
+                success: function (destinations) {
                     divListeCategories.empty();
 
                     for (var categorie of categories) {
