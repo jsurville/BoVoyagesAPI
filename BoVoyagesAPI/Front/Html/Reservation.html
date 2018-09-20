@@ -107,17 +107,18 @@
                 PrixParPersonne: $('#PrixParPersonne').val(),
                 VoyageId: $('#Voyage').val(),
                 ClientId: $('#Client').val()
-
             };
+            console.log(reservation);
             $.ajax({
                 type: 'POST',
-                url: '/api/Reservations',
+                url: '/api/DossierReservations',
                 data: reservation,
+                dataType:"json",
                 success: function () {
-                    window.location.href = '/Front/Html/Reservations.htmlindex.html';
+                    window.location.href = '/Front/Html/Reservations.html';
                 },
                 error: function () {
-                    alert('Erreur !');
+                    alert('Erreur creation doossier reservation!');
                 }
             });
             return false;

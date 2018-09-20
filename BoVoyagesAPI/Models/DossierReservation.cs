@@ -9,6 +9,12 @@ namespace BoVoyagesAPI.Models
 {
     public class DossierReservation
     {
+      public  DossierReservation()
+        {
+            this.Participants = new HashSet<Participant>();
+            this.Assurances = new HashSet<Assurance>();
+        }
+
         public int Id { get; set; }
         public int NumeroUnique { get; set; }
         public string NumeroCarteBancaire { get; set; }

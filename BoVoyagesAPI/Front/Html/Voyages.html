@@ -39,9 +39,18 @@
         <ul class="toolbar">
             <li><a href="/Front/html/voyage.html" class="btn btn-primary">Nouveau Voyage</a></li>
         </ul>
+        <div>
+            <label class="col-1">Id</label>
+            <label class="col-2">Destination</label>
+            <label class="col-2">Date Aller</label>
+            <label class="col-2">Date Retour</label>
+            <label class="col-1">Places</label>
+            <label class="col-2">Prix unit</label>
+        </div>
         <div id="listeVoyages">
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
             crossorigin="anonymous"></script>
@@ -51,6 +60,69 @@
 
     <script src="/Front/js/application.js"></script>
     <script>
+        function getVoyages() {
+            var divListeVoyages = $('#listeVoyages');
+            setLoader(divListeVoyages);
+
+            $.ajax({
+                url: '/api/Voyages',
+                success: function (voyages) {
+                    divListeVoyages.empty();
+                    if (voyages.length > 0) {
+                        for (voyage of voyages) {
+                            var divVoyage = $('<div class="Voyage alert"></div>');
+                            divVoyage.attr("data-id", voyage.Id);
+
+                            if (voyage.Statut) {
+                                divVoyage.addClass('alert-success');
+                            }
+
+                            var buttonDelete = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
+                            buttonDelete.on('click', function () {
+                                // Affichage d'une confirmation
+                                $.bsAlert.confirmTitle = 'Suppression';
+                                $.bsAlert.closeDisplay = 'Non';
+                                $.bsAlert.sureDisplay = 'Oui';
+                                $.bsAlert.confirm("Es-tu sûr?", () => {
+                                    var div = $(this).closest(".Voyage");
+                                    var idVoyage = div.attr("data-id");
+                                    SupprimerVoyage(idVoyage, div);
+                                });
+                            });
+                            
+                            divVoyage.append($('<label class="col-1"></label>').text(voyage.Id));
+                            divVoyage.append($('<label class="col-2"></label>').text(voyage.Destination.Pays));
+                            divVoyage.append($('<label class="col-2"></label>').text(moment(voyage.DateAller).format('DD/MM/YYYY')));
+                            divVoyage.append($('<label class="col-2"></label>').text(moment(voyage.DateRetour).format('DD/MM/YYYY')));
+                            divVoyage.append($('<label class="col-1"></label>').text(voyage.PlacesDisponibles));
+                            divVoyage.append($('<label class="col-2"></label>').text(voyage.PrixParPersonne));
+                            divVoyage.append(buttonDelete);
+
+                            divListeVoyages.append(divVoyage);
+                        }
+                    } else {
+                        divListeVoyages.append($('<p class="lead">Aucun Voyage pour le moment...</p>'));
+                    }
+                },
+                error: Erreur
+            });
+        }
+
+
+        function SupprimerVoyage(id, div) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/Voyages/' + id,
+                success: function () {
+                    getVoyages();
+                },
+                error: Erreur
+            });
+        }
+
+        function Erreur() {
+            alert("Erreur !");
+        }
         $(document).ready(getVoyages);
     </script>
 </body>
