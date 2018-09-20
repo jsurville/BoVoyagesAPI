@@ -51,29 +51,13 @@ function getVoyages() {
                     divListeVoyages.append(divVoyage);
                 }
             } else {
-                divListeVoyages.append($('<p class="lead">Aucune Voyage pour le moment...</p>'));
+                divListeVoyages.append($('<p class="lead">Aucun Voyage pour le moment...</p>'));
             }
         },
         error: Erreur
     });
 }
 
-
-function ModifierStatutVoyage(id, input) {
-    $.ajax({
-        type: 'PUT',
-        url: '/api/Voyagestatut/' + id + '?statut=' + input.checked,
-        success: function () {
-            var divVoyage = $(input).closest(".Voyage");
-            if (input.checked) {
-                divVoyage.addClass('alert-success');
-            } else {
-                divVoyage.removeClass('alert-success');
-            }
-        },
-        error: Erreur
-    });
-}
 
 function SupprimerVoyage(id, div) {
     $.ajax({

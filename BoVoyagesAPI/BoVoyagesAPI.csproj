@@ -93,10 +93,10 @@
     <Content Include="Front\CSS\application.css" />
     <Content Include="Front\CSS\bootstrap-alert.min.css" />
     <Content Include="Front\Html\Destinations.html" />
-    <Content Include="Front\Html\Voyage.html" />
     <Content Include="Front\Html\Voyages.html" />
-    <Content Include="Front\JS\application.js" />
-    <Content Include="Front\JS\bootstrap-alert.min.js" />
+    <Content Include="Front\Html\Voyage.html" />
+    <Content Include="Front\js\application.js" />
+    <Content Include="Front\js\bootstrap-alert.min.js" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
