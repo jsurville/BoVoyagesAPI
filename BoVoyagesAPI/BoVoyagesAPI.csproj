@@ -126,6 +126,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Metier\CarteBancaireService.cs" />
     <Compile Include="Migrations\201809200807227_Init.cs" />
     <Compile Include="Migrations\201809200807227_Init.Designer.cs">
       <DependentUpon>201809200807227_Init.cs</DependentUpon>

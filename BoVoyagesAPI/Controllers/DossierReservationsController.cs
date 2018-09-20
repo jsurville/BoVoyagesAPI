@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using BoVoyagesAPI.Data;
 using BoVoyagesAPI.Models;
+using BoVoyagesAPI.Metier;
 
 namespace BoVoyagesAPI.Controllers
 {
@@ -84,6 +85,16 @@ namespace BoVoyagesAPI.Controllers
             if (dossierReservation == null)
             {
                 return NotFound();
+            }
+
+            if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Refuse )
+            {
+                dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
+                if (dossierReservation.Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
+                {
+                    var rembourser = new CarteBancaireService().Rembourser(dossierReservation.NumeroCarteBancaire,
+                        dossierReservation.PrixTotal);
+                }
             }
 
             dossierReservation.EtatDossierReservation = EtatDossierReservation.Annule;
