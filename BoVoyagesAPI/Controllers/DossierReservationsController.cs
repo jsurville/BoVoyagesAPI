@@ -75,6 +75,23 @@ namespace BoVoyagesAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [ResponseType(typeof(void))]
+        [Route("api/AnnulerReservation/{id}")]  
+        [HttpPut]
+        public IHttpActionResult PutAnnulerReservation(int id)
+        {
+            DossierReservation dossierReservation = db.DossierReservations.Find(id);
+            if (dossierReservation == null)
+            {
+                return NotFound();
+            }
+
+            dossierReservation.EtatDossierReservation = EtatDossierReservation.Annule;
+            db.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // POST: api/DossierReservations
         [ResponseType(typeof(DossierReservation))]
         public IHttpActionResult PostDossierReservation(DossierReservation dossierReservation)
