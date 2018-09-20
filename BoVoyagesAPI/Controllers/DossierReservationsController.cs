@@ -139,6 +139,36 @@ namespace BoVoyagesAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [ResponseType(typeof(void))]
+        [Route("api/AccepterReservation/{id}")]
+        [HttpPut]
+        public IHttpActionResult PutAccepterReservation(int id)
+        {
+            DossierReservation dossierReservation = db.DossierReservations.Find(id);
+            if (dossierReservation == null)
+            {
+                return NotFound();
+            }
+
+            if (dossierReservation.EtatDossierReservation == EtatDossierReservation.EnCours)
+            {
+                var carteBancaireServie = new CarteBancaireService();
+                if (carteBancaireServie.ValiderSolvabilite(dossierReservation.NumeroCarteBancaire,
+                    dossierReservation.PrixTotal))
+                {
+                    dossierReservation.EtatDossierReservation = EtatDossierReservation.EnCours;
+                }
+                else
+                {
+                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
+                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
+                }
+                db.SaveChanges();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // POST: api/DossierReservations
         [ResponseType(typeof(DossierReservation))]
         public IHttpActionResult PostDossierReservation(DossierReservation dossierReservation)
