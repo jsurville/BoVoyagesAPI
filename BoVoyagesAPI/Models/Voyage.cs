@@ -21,8 +21,8 @@ namespace BoVoyagesAPI.Models
 
         
         [ForeignKey("DestinationId")]
-        public virtual Destination Destination { get; set; }
+        public Destination Destination { get; set; }
         [ForeignKey("AgenceVoyageId")]
-        public virtual AgenceVoyage AgenceVoyage { get; set; }
+        public AgenceVoyage AgenceVoyage { get; set; }
     }
 }

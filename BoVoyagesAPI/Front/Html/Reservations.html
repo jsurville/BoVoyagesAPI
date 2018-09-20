@@ -30,8 +30,74 @@
             </ul>
         </div>
     </nav>
+    <div class="container-fluid">
+        <ul class="toolbar">
+            <li><a href="/Front/html/Reservation.html" class="btn btn-primary">Nouveau dossier réservation</a></li>
+        </ul>
+        <div id="listeReservations">
+        </div>
+    </div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script src="/Front/js/bootstrap-alert.min.js"></script>
+
+    <script src="/Front/js/application.js"></script>
+    <script>
+        function getReservations() {
+            var divListeReservations = $('#listeReservations');
+            setLoader(divListeReservations);
+
+            $.ajax({
+                url: '/api/DossierReservations',
+                success: function (Reservations) {
+                    console.log(Reservations);
+                    divListeReservations.empty();
+                    if (Reservations.length > 0) {
+                        for (Reservation of Reservations) {
+                            var divReservation = $('<div class="Reservation alert"></div>');
+                            divReservation.attr("data-id", Reservation.Id);
+
+                            if (Reservation.Statut) {
+                                divReservation.addClass('alert-success');
+                            }
+
+
+                            var buttonDelete = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
+                            buttonDelete.on('click', function () {
+                                // Affichage d'une confirmation
+                                $.bsAlert.confirmTitle = 'Suppression';
+                                $.bsAlert.closeDisplay = 'Non';
+                                $.bsAlert.sureDisplay = 'Oui';
+                                $.bsAlert.confirm("Es-tu sûr?", () => {
+                                    var div = $(this).closest(".Reservation");
+                                    var idReservation = div.attr("data-id");
+                                    SupprimerReservation(idReservation, div);
+                                });
+                            });
+
+ 
+                            divReservation.append($('<label class="col-2"></label>').text(Reservation.Voyage.Destination.Pays));
+                            divReservation.append($('<label class="col-2"></label>').text(Reservation.Client.Nom));
+                            divReservation.append($('<label class="col-2"></label>').text(Reservation.Voyage.DateAller));
+                            divReservation.append($('<label class="col-2"></label>').text(Reservation.PrixTotal));                          
+                            divReservation.append(buttonDelete);
+
+                            divListeReservations.append(divReservation);
+                        }
+                    } else {
+                        divListeReservations.append($('<p class="lead">Aucun Reservation pour le moment...</p>'));
+                    }
+                },
+                error: Erreur
+            });
+        }
+
+        $(document).ready(getReservations);
+    </script>
 </body>
 </html>
