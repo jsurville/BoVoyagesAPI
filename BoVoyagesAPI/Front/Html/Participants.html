@@ -32,6 +32,28 @@
     </nav>
 
 
+    <div class="container col-12 ">
+        <h1>Liste des Participants</h1>
+        <br />
+        <ul class="toolbar">
+            <li style="float:right"><a href="/Front/html/Participant.html" class="btn btn-primary">Nouveau Participant</a></li>
+            <br>
+        </ul>
+        <div>
+            <label class="col-1">N° Unique</label>
+            <label class="col-1">N° Dossier</label>
+            <label class="col-3">Mr/Me Nom Prénom</label>
+            <label class="col-2">Email</label>
+            <label class="col-2">Tel.</label>
+            <label class="col-2">Date de Naissance</label>
+        </div>
+        <div id="listeClients" class="row">
+
+        </div>
+    </div>
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
             crossorigin="anonymous"></script>
@@ -41,7 +63,13 @@
 
     <script src="/Front/js/application.js"></script>
     <script>
-        $(document).ready(getVoyages);
+        
+        function LoadParticipants() {
+            alert("En cours ...");
+        }
+    </script>
+    <script>
+        $(document).ready(LoadParticipants);
     </script>
 </body>
 </html >
