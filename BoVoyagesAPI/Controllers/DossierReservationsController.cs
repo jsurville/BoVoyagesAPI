@@ -152,16 +152,17 @@ namespace BoVoyagesAPI.Controllers
 
             if (dossierReservation.EtatDossierReservation == EtatDossierReservation.EnCours)
             {
-                var carteBancaireServie = new CarteBancaireService();
-                if (carteBancaireServie.ValiderSolvabilite(dossierReservation.NumeroCarteBancaire,
-                    dossierReservation.PrixTotal))
+                var voyage = db.Voyages.Find(dossierReservation.VoyageId);
+                
+                if (voyage !=null && voyage.PlacesDisponibles >= dossierReservation.Participants.Count)
                 {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.EnCours;
+                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Accepte;
+                    voyage.PlacesDisponibles -= dossierReservation.Participants.Count;
                 }
                 else
                 {
                     dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
+                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PlacesInsuffisantes;
                 }
                 db.SaveChanges();
             }
