@@ -1,3 +1,9 @@
+body {
+    font-family: Verdana, sans-serif;
+    background-color: RGB(230,230,230);
+  
+}
+
 .container-fluid {
     margin-top: 25px;
 }
@@ -15,7 +21,20 @@
 .actions {
     margin-top: 25px;
 }
-
+li a {
+    display: block;
+    color: white;
+    align-content: center;
+    text-align: center;
+    padding: 12px 14px;
+    text-decoration: none;
+    height: 100%;
+}
+li a:hover {
+    background-color: #12e878;
+    text-decoration: none;
+    color: #9ef5ed;
+}
 
 button {
     margin-right: 15px;
@@ -41,6 +60,7 @@ button {
     border-left: none;
     border-right: none;
     padding: 10px;
+    color: cornflowerblue;
 }
 
     .Tache input[type=checkbox] {

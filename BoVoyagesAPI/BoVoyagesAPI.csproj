@@ -92,7 +92,14 @@
     <Content Include="favicon.ico" />
     <Content Include="Front\CSS\application.css" />
     <Content Include="Front\CSS\bootstrap-alert.min.css" />
+    <Content Include="Front\Html\Client.html" />
+    <Content Include="Front\Html\Clients.html" />
+    <Content Include="Front\Html\Destination.html" />
     <Content Include="Front\Html\Destinations.html" />
+    <Content Include="Front\Html\Participant.html" />
+    <Content Include="Front\Html\Participants.html" />
+    <Content Include="Front\Html\Reservation.html" />
+    <Content Include="Front\Html\Reservations.html" />
     <Content Include="Front\Html\Voyages.html" />
     <Content Include="Front\Html\Voyage.html" />
     <Content Include="Front\js\application.js" />
