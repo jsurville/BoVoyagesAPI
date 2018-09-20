@@ -128,8 +128,12 @@ namespace BoVoyagesAPI.Controllers
                     dossierReservation.PrixTotal))
                 {
                     dossierReservation.EtatDossierReservation = EtatDossierReservation.EnCours;
-                    db.SaveChanges();
-                }    
+                }    else
+                {
+                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
+                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
+                }
+                db.SaveChanges();
             }
 
             return StatusCode(HttpStatusCode.NoContent);
