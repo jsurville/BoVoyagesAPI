@@ -80,6 +80,15 @@
                                     ValiderReservation(idReservation, div);
                             });
 
+
+                            var buttonAccepter = $('<button class="btn btn-success btn-sm">Accepter</button>');
+                            buttonAccepter.on('click', function () {
+                                var div = $(this).closest(".Reservation");
+                                var idReservation = div.attr("data-id");
+                                if (etat == 'EnCours')
+                                    AccepterReservation(idReservation, div);
+                            });
+
                             var buttonAnnuler = $('<button class="btn btn-danger btn-sm">Annuler</button>');
                             buttonAnnuler.on('click', function () {
                                 var div = $(this).closest(".Reservation");
@@ -140,7 +149,25 @@
                     var etat = $(input).find(".etat");
                     etat.text('EnCours');
                 },
-                error: Erreur
+                error: function () {
+                    var etat = $(input).find(".etat");
+                    etat.text('Refuse');
+                }
+            });
+        }
+
+        function AccepterReservation(id, input) {
+            $.ajax({
+                type: 'PUT',
+                url: '/api/AccepterReservation/' + id,
+                success: function () {
+                    var etat = $(input).find(".etat");
+                    etat.text('Accepte');
+                },
+                error: function () {
+                    var etat = $(input).find(".etat");
+                    etat.text('Refuse');
+                }
             });
         }
 
