@@ -20,7 +20,9 @@ namespace BoVoyagesAPI.Controllers
         // GET: api/DossierReservations
         public IQueryable<DossierReservation> GetDossierReservations()
         {
-            return db.DossierReservations.Include(x => x.Participants).Include(y => y.Client).Include(t => t.Voyage)
+            return db.DossierReservations.Include(x => x.Participants).Include(y => y.Client)
+                .Include(t => t.Voyage)
+                .Include(t => t.Voyage.Destination)
                 .Include(z => z.Assurances);
         }
 
