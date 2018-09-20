@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/Front/CSS/application.css" />
+
+    <style>
+        .form-group {
+            padding: 5px;
+        }
+
+        div.row {
+            padding: 5px;
+            border: none;
+        }
+    </style>
 </head>
 <body>
     <nav style="color:aquamarine" class="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -68,7 +79,7 @@
                     if (reservations.length > 0) {
                         for (reservation of reservations) {
                             console.log()
-                            var divReservation = $('<div class="Reservation"></div>');
+                            var divReservation = $('<div class="Reservation alert alert-info col-12""></div>');
                             divReservation.attr("data-id", reservation.Id);
                             let etat = switchEtat(reservation.EtatDossierReservation);
 

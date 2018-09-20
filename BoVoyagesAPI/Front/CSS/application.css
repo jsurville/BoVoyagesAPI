@@ -21,6 +21,11 @@ body {
 .actions {
     margin-top: 25px;
 }
+
+div {
+    border: none;
+}
+
 li a {
     display: block;
     color: white;
@@ -54,6 +59,71 @@ button {
     animation: spin 1.5s linear infinite;
 }
 
+.Participant {
+    border: solid 1px lightgray;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+    color: cornflowerblue;
+}
+
+    .Participant input[type=checkbox] {
+        margin-right: 8px;
+    }
+
+    .Participant button {
+        float: right;
+        display: none;
+    }
+
+    .Participant:hover {
+        border: solid 1px gray;
+        border-left: none;
+        border-right: none;
+    }
+
+    .Participant:not(.alert-success):hover {
+        background-color: whitesmoke;
+    }
+
+    .Participant:hover button {
+        display: block;
+    }
+
+.Reservation {
+    border: solid 1px lightgray;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+    color: cornflowerblue;
+}
+
+
+    .Reservation input[type=checkbox] {
+        margin-right: 8px;
+    }
+
+    .Reservation button {
+        float: right;
+        display: none;
+    }
+
+    .Reservation:hover {
+        border: solid 1px gray;
+        border-left: none;
+        border-right: none;
+    }
+
+    .Reservation:not(.alert-success):hover {
+        background-color: whitesmoke;
+    }
+
+    .Reservation:hover button {
+        display: block;
+    }
+
 .Client {
     border: solid 1px lightgray;
     border-radius: 0;
@@ -61,11 +131,6 @@ button {
     border-right: none;
     padding: 10px;
     color: cornflowerblue;
-
-}
-
-div {
-    border: none;
 }
     .Client input[type=checkbox] {
         margin-right: 8px;
