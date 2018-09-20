@@ -40,6 +40,7 @@
             <label class="col-2">Client</label>
             <label class="col-2">Date Aller</label>
             <label class="col-2">Prix total</label>
+            <label class="col-2">Etat</label>
         </div>
         <div id="listeReservations">
         </div>
@@ -61,45 +62,60 @@
 
             $.ajax({
                 url: '/api/DossierReservations',
-                success: function (Reservations) {
-                    console.log(Reservations);
+                success: function (reservations) {
+                    console.log(reservations);
                     divListeReservations.empty();
-                    if (Reservations.length > 0) {
-                        for (Reservation of Reservations) {
-                            var divReservation = $('<div class="Reservation alert"></div>');
-                            divReservation.attr("data-id", Reservation.Id);
+                    if (reservations.length > 0) {
+                        for (reservation of reservations) {
+                            console.log()
+                            var divReservation = $('<div class="Reservation"></div>');
+                            divReservation.attr("data-id", reservation.Id);
 
-                            if (Reservation.Statut) {
-                                divReservation.addClass('alert-success');
-                            }
-
-
-                            var buttonDelete = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
-                            buttonDelete.on('click', function () {
-                                // Affichage d'une confirmation
-                                $.bsAlert.confirmTitle = 'Suppression';
-                                $.bsAlert.closeDisplay = 'Non';
-                                $.bsAlert.sureDisplay = 'Oui';
-                                $.bsAlert.confirm("Es-tu sûr?", () => {
-                                    var div = $(this).closest(".Reservation");
-                                    var idReservation = div.attr("data-id");
-                                    SupprimerReservation(idReservation, div);
-                                });
+                            var buttonAnnuler = $('<button class="btn btn-danger btn-sm">Annuler</button>');
+                            buttonAnnuler.on('click', function () {
+                                var div = $(this).closest(".Reservation");
+                                var idReservation = div.attr("data-id");
+                                AnnulerReservation(idReservation, div);
                             });
 
+                            divReservation.append($('<label class="col-1"></label>').text(reservation.Id));
+                            divReservation.append($('<label class="col-2"></label>').text(reservation.Voyage.Destination.Pays));
+                            divReservation.append($('<label class="col-2"></label>').text(reservation.Client.Nom));
+                            divReservation.append($('<label class="col-2"></label>').text(moment(reservation.Voyage.DateAller).format('DD/MM/YYYY')));
+                            divReservation.append($('<label class="col-2"></label>').text(reservation.PrixTotal));
+                            var etat = switchEtat(reservation.EtatDossierReservation);
 
-                            divReservation.append($('<label class="col-1"></label>').text(Reservation.Id));
-                            divReservation.append($('<label class="col-2"></label>').text(Reservation.Voyage.Destination.Pays));
-                            divReservation.append($('<label class="col-2"></label>').text(Reservation.Client.Nom));
-                            divReservation.append($('<label class="col-2"></label>').text(moment(Reservation.Voyage.DateAller).format('DD/MM/YYYY')));
-                            divReservation.append($('<label class="col-2"></label>').text(Reservation.PrixTotal));
-                            divReservation.append(buttonDelete);
+                            divReservation.append($('<label class="etat col-2"></label>').text(etat));
+                            divReservation.append(buttonAnnuler);
 
                             divListeReservations.append(divReservation);
                         }
                     } else {
                         divListeReservations.append($('<p class="lead">Aucun Reservation pour le moment...</p>'));
                     }
+                },
+                error: Erreur
+            });
+        }
+
+        function switchEtat(etatNumber) {
+            switch (etatNumber) {
+                case 0: return "EnAttente";
+                case 1: return "EnCours";
+                case 2: return "Refuse";
+                case 3: return "Accepte";
+                case 4: return "Clos";
+                case 5: return "Annule";
+            }
+        }
+
+        function AnnulerReservation(id, input) {
+            $.ajax({
+                type: 'PUT',
+                url: '/api/AnnulerReservation/' + id,
+                success: function () {         
+                    var etat = $(input).find(".etat");
+                    etat.text('Annule');
                 },
                 error: Erreur
             });
