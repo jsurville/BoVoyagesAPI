@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/Front/CSS/application.css" />
+
+    <style>
+        .form-group {
+            padding: 5px;
+        }
+
+        div.row {
+            padding: 5px;
+            border: none;
+        }
+    </style>
 </head>
 <body>
     <nav style="color:aquamarine" class="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -64,7 +75,6 @@
     <script>
 
         function LoadParticipants() {
-
             $.ajax({
                 type: 'GET',
                 url: '/api/Participants/',
@@ -81,6 +91,20 @@
                         if (participant.Civilite == 1) {
                             participant.Civilite = "Mme";
                         }
+
+                        var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                        buttonDelete.on('click', function () {
+                            // Affichage d'une confirmation
+                            $.bsAlert.confirmTitle = 'Suppression';
+                            $.bsAlert.closeDisplay = 'Non';
+                            $.bsAlert.sureDisplay = 'Oui';
+                            $.bsAlert.confirm("Es-tu sûr?", () => {
+                                let div = $(this).closest(".Client");
+                                let idClient = div.attr("data-id");
+                                SupprimerClient(idClient);
+                            });
+                        });
+                        divParticipant.append(buttonDelete);
                         divParticipant.append($('<label class="col-1"></label>').text(participant.NumeroUnique));
                         divParticipant.append($('<label class="col-1"></label>').text(participant.DossierReservationId));
                         divParticipant.append($('<label class="col-3"></label>').text(participant.NomComplet));

@@ -103,7 +103,7 @@
                                // console.log(client.Civilite);
 
                                 divClient.append($('<label class="col-1"></label>').text(client.Civilite));
-                                divClient.append($('<label class="col-1" ></label>').text(client.Nom));
+                                divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
                                 divClient.append($('<label class="col-1"></label>').text(client.Prenom));
                                 divClient.append($('<label class="col-2"></label>').text(client.Email));
                                 divClient.append($('<label class="col-2"></label>').text(client.Telephone));
@@ -120,10 +120,10 @@
                     alert("En cours");
                     let div = buttonModif.closest('.Client');
                     //var span = div.find('span');
-                    var label = div.find('label');
-                    console.log(label);
+                    var nom = div.find('#Nom');
+                    console.log(nom);
                     //div.empty();
-                    var input = $('<input type="text"/>').val(label.text());
+                    var input = $('<input type="text"/>').val(nom.text());
                     div.append(input);
                     input.focus();
                     input.select();
@@ -131,15 +131,21 @@
                     var buttonEnregistrer = $('<button class="btn btn-primary btn-sm Catgorie"> Enregistrer </button> ');
                     div.append(buttonEnregistrer);
                     buttonEnregistrer.on('click', function () {
-                       
-                        LoadClients();
+                        EnregistrerModification(div);
                     })
                     var buttonAnnuler = $('<button class="btn btn-default btn-sm Catgorie"> Annuler </button> ');
                     div.append(buttonAnnuler);
                     buttonAnnuler.on('click', function () {
-                        
                         LoadClients()
                     })
+                }
+
+                function EnregistrerModification(divClient) {
+                    let idClient= divClient.data('id');
+                    let nomClient = divClient.find('input').val();
+                    console.log(idClient);
+                    LoadClients();
+                    
                 }
 
                 function SupprimerClient(idClient) {
