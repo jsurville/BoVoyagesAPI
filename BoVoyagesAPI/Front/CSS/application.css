@@ -1,9 +1,13 @@
 body {
     font-family: Verdana, sans-serif;
-    background-color: RGB(230,230,230);
-  
+    background-image: url("https://www.voyage-prive.com/s/images/visual/login/backgrounds/2048x1463-ponton.jpg");
+    color:antiquewhite;
 }
 
+img {
+    opacity: 0.2;
+
+}
 .container-fluid {
     margin-top: 25px;
 }
@@ -20,10 +24,6 @@ body {
 
 .actions {
     margin-top: 25px;
-}
-
-div {
-    border: none;
 }
 
 li a {
@@ -99,28 +99,88 @@ button {
     padding: 10px;
     color: cornflowerblue;
 }
-
-
     .Reservation input[type=checkbox] {
         margin-right: 8px;
     }
-
     .Reservation button {
         float: right;
         display: none;
     }
-
     .Reservation:hover {
         border: solid 1px gray;
         border-left: none;
         border-right: none;
     }
-
     .Reservation:not(.alert-success):hover {
         background-color: whitesmoke;
     }
-
     .Reservation:hover button {
+        display: block;
+    }
+
+
+.Destination {
+    border: solid 1px lightgray;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+    color: cornflowerblue;
+}
+
+    .Destination input[type=checkbox] {
+        margin-right: 8px;
+    }
+
+    .Destination button {
+        float: right;
+        display: none;
+    }
+
+    .Destination:hover {
+        border: solid 1px gray;
+        border-left: none;
+        border-right: none;
+    }
+
+    .Destination:not(.alert-success):hover {
+        background-color: whitesmoke;
+    }
+
+    .Destination:hover button {
+        display: block;
+    }
+
+
+.Voyage {
+    border: solid 1px lightgray;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 10px;
+    color: cornflowerblue;
+}
+
+    .Voyage input[type=checkbox] {
+        margin-right: 8px;
+    }
+
+    .Voyage button {
+        float: right;
+        display: none;
+    }
+
+    .Voyage:hover {
+        border: solid 1px gray;
+        border-left: none;
+        border-right: none;
+    }
+
+    .Voyage:not(.alert-success):hover {
+        background-color: whitesmoke;
+    }
+
+    .Voyage:hover button {
         display: block;
     }
 

@@ -14,11 +14,10 @@
         .form-group {
             padding: 5px;
         }
-
-        div.row {
-            padding: 5px;
-            border: none;
-        }
+            div.row {
+                padding: 5px;
+                border: none;
+            }
     </style>
 </head>
 <body>
@@ -43,21 +42,23 @@
     </nav>
 
 
-    <div class="container col-12 ">
+    <div class="container-fluid col-12 ">
         <h1>Liste des Participants</h1>
         <br />
-        <ul class="toolbar">
-            <li style="float:right"><a href="/Front/html/Participant.html" class="btn btn-primary">Nouveau Participant</a></li>
-            <br>
-        </ul>
+        <div>
+            <ul class="toolbar">
+                <li ><a href="/Front/html/Participant.html" class="btn btn-primary">Ajouter un Participant</a></li>
+                <br />
+            </ul>
+        </div>
         <div>
             <label class="col-1">N° Unique</label>
-            <label class="col-1">N° Dossier</label>
+            <label class="col-2">N° Dossier</label>
             <label class="col-3">Mr/Me Nom Prénom</label>
             <label class="col-2">Tel.</label>
             <label class="col-2">Date de Naissance</label>
         </div>
-        <div id="listeParticipants" class="row">
+        <div id="listeParticipants" class="col-12">
 
         </div>
     </div>
@@ -108,7 +109,7 @@
                         });
                         divParticipant.append(buttonDelete);
                         divParticipant.append($('<label class="col-1"></label>').text(participant.NumeroUnique));
-                        divParticipant.append($('<label class="col-1"></label>').text(participant.DossierReservationId));
+                        divParticipant.append($('<label class="col-2"></label>').text(participant.DossierReservationId));
                         divParticipant.append($('<label class="col-3"></label>').text(participant.NomComplet));
                         divParticipant.append($('<label class="col-2"></label>').text(participant.Telephone));
                         divParticipant.append($('<label class="col-2"></label>').text(moment(participant.DateNaissance).format('DD/MM/YYYY')));
@@ -132,7 +133,6 @@
                 }
             });
         }
-
 
     </script>
     <script>

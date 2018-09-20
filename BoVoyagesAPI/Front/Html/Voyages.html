@@ -11,17 +11,25 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/Front/CSS/bootstrap-alert.min.css" />
     <link rel="stylesheet" href="/Front/CSS/application.css" />
+
     <style>
+        .form-group {
+            padding: 5px;
+        }
+            div.row {
+                padding: 5px;
+                border: none;
+            }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand active" href="/Front//Html/Voyages.html"><i class="fas fa-check-double"></i> BoVoyage</a>
+    <nav style="color:aquamarine" class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand active" href="/Front/Html/Voyages.html"><i class="fas fa-check-double"></i> BoVoyage</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/Front/Html/Destinations.html">Destinations <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/Front/Html/Destinations.html">Destinations </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Front/Html/Clients.html">Clients</a>
@@ -30,26 +38,33 @@
                     <a class="nav-link" href="/Front/Html/Participants.html">Participants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Front/html/Reservations.html">Reservations</a>
+                    <a class="nav-link" href="/Front/Html/Reservations.html">Reservations</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container-fluid">
-        <ul class="toolbar">
-            <li><a href="/Front/html/voyage.html" class="btn btn-primary">Nouveau Voyage</a></li>
-        </ul>
+    <div class="container-fluid col-12">
+        <h1>Liste des Voyages</h1>
+        <br />
         <div>
+            <ul class="toolbar">
+                <li><a href="/Front/html/Voyage.html" class="btn btn-primary">Ajouter un Nouveau Voyage</a></li>
+            </ul>
+        </div>
+        
+        <div class="col-12">
             <label class="col-1">Id</label>
             <label class="col-2">Destination</label>
-            <label class="col-2">Date Aller</label>
-            <label class="col-2">Date Retour</label>
+            <label class="col-1">Date Aller</label>
+            <label class="col-1">Date Retour</label>
             <label class="col-1">Places</label>
             <label class="col-2">Prix unit</label>
         </div>
-        <div id="listeVoyages">
+        <div id="listeVoyages" class="col-12">
+
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -70,7 +85,7 @@
                     divListeVoyages.empty();
                     if (voyages.length > 0) {
                         for (voyage of voyages) {
-                            var divVoyage = $('<div class="Voyage alert"></div>');
+                            var divVoyage = $('<div class="Voyage alert alert-info col-12 "></div>');
                             divVoyage.attr("data-id", voyage.Id);
 
                             if (voyage.Statut) {
@@ -92,8 +107,8 @@
                             
                             divVoyage.append($('<label class="col-1"></label>').text(voyage.Id));
                             divVoyage.append($('<label class="col-2"></label>').text(voyage.Destination.Pays));
-                            divVoyage.append($('<label class="col-2"></label>').text(moment(voyage.DateAller).format('DD/MM/YYYY')));
-                            divVoyage.append($('<label class="col-2"></label>').text(moment(voyage.DateRetour).format('DD/MM/YYYY')));
+                            divVoyage.append($('<label class="col-1"></label>').text(moment(voyage.DateAller).format('DD/MM/YYYY')));
+                            divVoyage.append($('<label class="col-1"></label>').text(moment(voyage.DateRetour).format('DD/MM/YYYY')));
                             divVoyage.append($('<label class="col-1"></label>').text(voyage.PlacesDisponibles));
                             divVoyage.append($('<label class="col-2"></label>').text(voyage.PrixParPersonne));
                             divVoyage.append(buttonDelete);
