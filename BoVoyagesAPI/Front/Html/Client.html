@@ -43,12 +43,12 @@
     <div class="container col-12 ">
         <h1>Formulaire Client</h1>
         <br />
-        <div >
+        <div>
             <form novalidate class="row">
                 <div class="form-group col-2">
                     <label for="Civilite">Civilité</label>
-                    <input type="radio" name=choix class="civilite" id="mme" value="1" /> Mme
-                    <input type="radio" name=choix class="civilite" id="mr" value="2" /> Mr
+                    <input type="radio" name="choix" class="civilite" id="mme" value="1" /> Mme
+                    <input type="radio" name="choix" class="civilite" id="mr" value="2" /> Mr
                 </div>
                 <div class="form-group col-5">
                     <label for="Nom">Nom</label>
@@ -64,8 +64,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="DtaeNaissance">Date de Naissance</label>
-                    <input type="date" class="form-control" id="DtaeNaissance" />
+                    <label for="DateNaissance">Date de Naissance</label>
+                    <input type="date" class="form-control" id="DateNaissance" />
                 </div>
                 <div class="form-group">
                     <label for="Email">Email</label>
@@ -81,10 +81,14 @@
                     <input type="text" class="form-control" id="Adresse" />
                 </div>
             </form>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="return Enregistrer();">Enregistrer</button>
+                <a href="/" class="btn btn-light">Annuler</a>
+            </div>
         </div>
         <div>
             <ul class="toolbar">
-                <li style="float:right"><a href="/Front/html/Clients.html" class="btn btn-light">Annuler</a></li>
+                <li style="float:right"><a href="/Front/html/Clients.html" class="btn btn-light">Retour</a></li>
                 <br>
             </ul>
         </div>
@@ -100,7 +104,55 @@
 
         <script src="/Front/js/application.js"></script>
         <script>
-            $(document).ready(getVoyages);
+
+            function Valider() {
+                var form = $('form');
+                let estValide = form[0].checkValidity();
+                form.addClass("was-validated");
+
+                return estValide;
+            }
+
+            function Enregistrer() {
+                if (!Valider()) {
+                    return false;
+                }
+                let valeur = $('input[name=choix]:checked').val();
+                if (valeur == 1) {
+                    valeur="Mme"
+                }
+                if (valeur == 1) {
+                    valeur = "Mr"
+                }
+                let client = {
+                    Civilite: valeur,
+                    Nom: $('#Nom').val(),
+                    Prenom: $('#Prenom').val(),
+                    DateNaissance: $('#DateNaissance').val(),
+                    Email: $('#Email').val(),
+                    Telephone: $('#NumTel').val(),
+                    Adresse: $('#Adresse').val()
+                };
+                
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Clients',
+                    data: client,
+                    success: function () {
+                        $('form')[0].reset();
+                        $('form').removeClass('was-validated');
+                        alert("Le Client a bien été enregistré ")
+                        //window.location.href = '/index.html';
+                    },
+                    error: function () {
+                        alert("Impossible d'enregistrer ce nouveau Client  ");
+                    }
+                });
+
+                return false;
+            }
+            
         </script>
 </body>
 </html >

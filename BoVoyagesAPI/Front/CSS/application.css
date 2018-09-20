@@ -65,7 +65,7 @@ button {
 }
 
 div {
-    border: solid 1px red;
+    border: none;
 }
     .Client input[type=checkbox] {
         margin-right: 8px;
