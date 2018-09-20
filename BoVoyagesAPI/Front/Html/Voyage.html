@@ -136,7 +136,7 @@
                 success: function (destinations) {
                     var select = $("#Destination");
                     select.empty();
-                    select.append($('<option></option>')); // élément vide
+                    select.append($('<option></option>')); 
 
                     for (destination of destinations) {
                         var option = $('<option></option>');
@@ -155,7 +155,7 @@
                     console.log(agenceVoyages);
                     var select = $("#AgenceVoyage");
                     select.empty();
-                    select.append($('<option></option>')); // élément vide
+                    select.append($('<option></option>')); 
 
                     for (agenceVoyage of agenceVoyages) {
                         var option = $('<option></option>');
@@ -170,7 +170,7 @@
 
         $(document).ready(function () {
             LoadDestinations();
-            $('#DateAller').focus(); // Sans jquery: document.getElementById('Nom').focus();
+            $('#DateAller').focus(); 
             LoadAgenceVoyages();
         });
 
