@@ -30,8 +30,163 @@
             </ul>
         </div>
     </nav>
+    <div class="container-fluid">
+        <h3>Nouvelle réservation</h3>
+
+        <form novalidate>
+            <div class="form-group">
+                <label for="NumeroUnique">Numéro dossier unique</label>
+                <input type="number" class="form-control" id="NumeroUnique" required />
+                <div class="invalid-feedback">
+                    Champ requis
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="NumeroCarteBancaire">Numéro carte bancaire</label>
+                <input type="text" class="form-control" id="NumeroCarteBancaire" required />
+                <div class="invalid-feedback">
+                    Champ requis
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PrixParPersonne">Prix Par Personne</label>
+                <input type="number" placeholder="0.00" step="0.01" class="form-control" id="PrixParPersonne" required />
+                <div class="invalid-feedback">
+                    Champ requis
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Voyage">Voyage</label>
+                <select class="form-control" id="Voyage" required></select>
+                <div class="invalid-feedback">
+                    Champ requis
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Client">Client</label>
+                <select class="form-control" id="Client" required></select>
+                <div class="invalid-feedback">
+                    Champ requis
+                </div>
+            </div>
 
 
+            <div class="form-group">
+                <label for="Assurance">Assurance</label>
+                <select class="form-control" id="Assurance"></select>
+            </div>
+
+        </form>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="return Enregistrer();">Enregistrer</button>
+            <a href="/" class="btn btn-light">Annuler</a>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script>
+        function Valider() {
+            var form = $('form');
+            let estValide = form[0].checkValidity();
+            form.addClass("was-validated");
+            return estValide;
+        }
+        function Enregistrer() {
+            if (!Valider()) {
+                return false;
+            }
+            let assurance = {
+                Id: $('#Assurance').val()
+            };
+            let reservation = {
+                NumeroUnique: $('#NumeroUnique').val(),
+                NumeroCarteBancaire: $('#NumeroCarteBancaire').val(),
+                PrixParPersonne: $('#PrixParPersonne').val(),
+                VoyageId: $('#Voyage').val(),
+                ClientId: $('#Client').val()
+            };
+            console.log(reservation);
+            $.ajax({
+                type: 'POST',
+                url: '/api/DossierReservations',
+                data: reservation,
+                dataType:"json",
+                success: function () {
+                    window.location.href = '/Front/Html/Reservations.html';
+                },
+                error: function () {
+                    alert('Erreur creation doossier reservation!');
+                }
+            });
+            return false;
+        }
+        function LoadVoyages() {
+            $.ajax({
+                url: '/api/Voyages',
+                success: function (voyages) {
+                    var select = $("#Voyage");
+                    select.empty();
+                    select.append($('<option></option>')); 
+                    for (voyage of voyages) {
+                        var option = $('<option></option>');
+                        option.val(voyage.Id);
+                        option.text(voyage.Destination.Pays);
+                        select.append(option);
+                    }
+                }
+            });
+        }
+
+        function LoadClients() {
+            $.ajax({
+                url: '/api/Clients',
+                success: function (clients) {
+                    var select = $("#Client");
+                    select.empty();
+                    select.append($('<option></option>'));
+                    for (client of clients) {
+                        var option = $('<option></option>');
+                        option.val(client.Id);
+                        option.text(client.Nom);
+                        select.append(option);
+                    }
+                }
+            });
+        }
+
+        function LoadAssurances() {
+            $.ajax({
+                url: '/api/Assurances',
+                success: function (assurances) {
+                    console.log(assurances);
+                    var select = $("#Assurance");
+                    select.empty();
+                    select.append($('<option></option>')); 
+                    for (assurance of assurances) {
+                        var option = $('<option></option>');
+                        option.val(assurance.Id);
+                        var typeAssurance = '';
+                        if (assurance.TypeAssurance == 1)
+                             typeAssurance = 'Annulation';
+                        option.text(typeAssurance);
+                        select.append(option);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            LoadVoyages();
+            LoadClients();
+            LoadAssurances();
+
+            $('#NumeroUnique').focus();
+        });
+    </script>
+
+
 </body>
 </html>
