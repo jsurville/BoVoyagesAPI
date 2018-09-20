@@ -77,7 +77,7 @@ namespace BoVoyagesAPI.Controllers
         }
 
         [ResponseType(typeof(void))]
-        [Route("api/AnnulerReservation/{id}")]  
+        [Route("api/AnnulerReservation/{id}")]
         [HttpPut]
         public IHttpActionResult PutAnnulerReservation(int id)
         {
@@ -87,18 +87,25 @@ namespace BoVoyagesAPI.Controllers
                 return NotFound();
             }
 
-            if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Refuse )
+            if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Clos
+                && dossierReservation.EtatDossierReservation != EtatDossierReservation.Annule)
             {
-                dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
-                if (dossierReservation.Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
+                if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Refuse)
                 {
-                    var rembourser = new CarteBancaireService().Rembourser(dossierReservation.NumeroCarteBancaire,
-                        dossierReservation.PrixTotal);
+                    if (dossierReservation.EtatDossierReservation == EtatDossierReservation.Accepte)
+                    {
+                        if (dossierReservation.Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
+                        {
+                            var rembourser = new CarteBancaireService().Rembourser(dossierReservation.NumeroCarteBancaire,
+                                dossierReservation.PrixTotal);
+                        }
+                    }
+                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
                 }
-            }
 
-            dossierReservation.EtatDossierReservation = EtatDossierReservation.Annule;
-            db.SaveChanges();
+                dossierReservation.EtatDossierReservation = EtatDossierReservation.Annule;
+                db.SaveChanges();
+            }
 
             return StatusCode(HttpStatusCode.NoContent);
         }

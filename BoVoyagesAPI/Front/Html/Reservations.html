@@ -70,12 +70,13 @@
                             console.log()
                             var divReservation = $('<div class="Reservation"></div>');
                             divReservation.attr("data-id", reservation.Id);
-
+                            let etat = switchEtat(reservation.EtatDossierReservation);
                             var buttonAnnuler = $('<button class="btn btn-danger btn-sm">Annuler</button>');
                             buttonAnnuler.on('click', function () {
                                 var div = $(this).closest(".Reservation");
                                 var idReservation = div.attr("data-id");
-                                AnnulerReservation(idReservation, div);
+                                if (etat != 'Clos' && etat != 'Annule')
+                                    AnnulerReservation(idReservation, div);
                             });
 
                             divReservation.append($('<label class="col-1"></label>').text(reservation.Id));
@@ -83,7 +84,7 @@
                             divReservation.append($('<label class="col-2"></label>').text(reservation.Client.Nom));
                             divReservation.append($('<label class="col-2"></label>').text(moment(reservation.Voyage.DateAller).format('DD/MM/YYYY')));
                             divReservation.append($('<label class="col-2"></label>').text(reservation.PrixTotal));
-                            var etat = switchEtat(reservation.EtatDossierReservation);
+
 
                             divReservation.append($('<label class="etat col-2"></label>').text(etat));
                             divReservation.append(buttonAnnuler);
@@ -113,7 +114,7 @@
             $.ajax({
                 type: 'PUT',
                 url: '/api/AnnulerReservation/' + id,
-                success: function () {         
+                success: function () {
                     var etat = $(input).find(".etat");
                     etat.text('Annule');
                 },

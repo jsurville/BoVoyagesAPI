@@ -12,7 +12,7 @@ namespace BoVoyagesAPI.Metier
         {
             try
             {
-                return ((int.Parse(numeroCarteBancaire) -(int) prixTotal) % 2) == 0;
+                return ((int.Parse(numeroCarteBancaire) -(int) prixTotal)) > 0;
             }
             catch
             {
