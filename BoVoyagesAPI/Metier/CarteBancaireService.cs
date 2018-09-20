@@ -10,14 +10,9 @@ namespace BoVoyagesAPI.Metier
     {
         public bool ValiderSolvabilite(string numeroCarteBancaire, decimal prixTotal)
         {
-            try
-            {
-                return ((int.Parse(numeroCarteBancaire) -(int) prixTotal)) > 0;
-            }
-            catch
-            {
-                return false;
-            }
+            decimal solde = 0;
+            decimal.TryParse(numeroCarteBancaire, out solde);
+            return (solde > prixTotal);  
         }
 
         public bool Rembourser(string numeroCarteBancaire, decimal prixTotal)

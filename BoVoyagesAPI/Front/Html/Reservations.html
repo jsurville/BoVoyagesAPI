@@ -71,6 +71,15 @@
                             var divReservation = $('<div class="Reservation"></div>');
                             divReservation.attr("data-id", reservation.Id);
                             let etat = switchEtat(reservation.EtatDossierReservation);
+
+                            var buttonValider = $('<button class="btn btn-primary btn-sm">Valider</button>');
+                            buttonValider.on('click', function () {
+                                var div = $(this).closest(".Reservation");
+                                var idReservation = div.attr("data-id");
+                                if (etat == 'EnAttente')
+                                    ValiderReservation(idReservation, div);
+                            });
+
                             var buttonAnnuler = $('<button class="btn btn-danger btn-sm">Annuler</button>');
                             buttonAnnuler.on('click', function () {
                                 var div = $(this).closest(".Reservation");
@@ -87,6 +96,7 @@
 
 
                             divReservation.append($('<label class="etat col-2"></label>').text(etat));
+                            divReservation.append(buttonValider);
                             divReservation.append(buttonAnnuler);
 
                             divListeReservations.append(divReservation);
@@ -117,6 +127,18 @@
                 success: function () {
                     var etat = $(input).find(".etat");
                     etat.text('Annule');
+                },
+                error: Erreur
+            });
+        }
+
+        function ValiderReservation(id, input) {
+            $.ajax({
+                type: 'PUT',
+                url: '/api/ValiderReservation/' + id,
+                success: function () {
+                    var etat = $(input).find(".etat");
+                    etat.text('EnCours');
                 },
                 error: Erreur
             });
