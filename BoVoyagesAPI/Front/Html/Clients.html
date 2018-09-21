@@ -137,11 +137,8 @@
 
                 function ModifierClient(buttonModif) {
                     alert("En cours");
-                    let div = buttonModif.closest('.Client');
-                    //var span = div.find('span');
+                    let div = buttonModif.closest('.Client');  
                     var nom = div.find('#Nom');
-                    console.log(nom);
-                    //div.empty();
                     var input = $('<input type="text"/>').val(nom.text());
                     div.append(input);
                     input.focus();
@@ -162,9 +159,7 @@
                 function EnregistrerModification(divClient) {
                     let idClient= divClient.data('id');
                     let nomClient = divClient.find('input').val();
-                    console.log(idClient);
-                    LoadClients();
-                    
+                    LoadClients();                    
                 }
 
                 function SupprimerClient(idClient) {
@@ -177,7 +172,6 @@
                         }
                         ,
                         error: function (erreur) {
-                            console.log(erreur);
                             alert(erreur.responseJSON.Message);
                         }
                     });

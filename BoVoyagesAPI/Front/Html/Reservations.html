@@ -81,7 +81,7 @@
         function getReservations() {
             var divListeReservations = $('#listeReservations');
             setLoader(divListeReservations);
-
+            divListeReservations.empty();
             $.ajax({
                 url: '/api/DossierReservations',
                 success: function (reservations) {
@@ -89,7 +89,7 @@
                     divListeReservations.empty();
                     if (reservations.length > 0) {
                         for (reservation of reservations) {
-                            console.log()
+
                             var divReservation = $('<div class="Reservation alert alert-info col-12"></div>');
                             divReservation.attr("data-id", reservation.Id);
                             let etat = switchEtat(reservation.EtatDossierReservation);
@@ -102,13 +102,11 @@
                                     ValiderReservation(idReservation, div);
                             });
 
-
                             var buttonAccepter = $('<button class="btn btn-success btn-sm" style="float:right">Accepter</button>');
                             buttonAccepter.on('click', function () {
                                 var div = $(this).closest(".Reservation");
                                 var idReservation = div.attr("data-id");
-
-                                if (etat == 'EnCours')
+                                if (etat == 'EnCours' || div.find(".etat").text() == 'EnCours')
                                     AccepterReservation(idReservation, div);
                             });
 
@@ -117,9 +115,20 @@
                                 var div = $(this).closest(".Reservation");
                                 var idReservation = div.attr("data-id");
 
-                                if (etat != 'Clos' && etat != 'Annule')
+                                if (etat != 'Clos' && etat != 'Annule'
+                                    && div.find(".etat").text() != 'Clos'
+                                    && div.find(".etat").text() != 'Annule')                                
                                     AnnulerReservation(idReservation, div);
                             });
+
+                            var buttonCloturer = $('<button class="btn btn-warning btn-sm" style="float:right">Cloturer</button>');
+                            buttonCloturer.on('click', function () {
+                                var div = $(this).closest(".Reservation");
+                                var idReservation = div.attr("data-id");
+                                if (etat == 'Accepte' || div.find(".etat").text() == 'Accepte')
+                                    CloturerReservation(idReservation, div);
+                            });
+
 
                             divReservation.append($('<label class="col-1"></label>').text(reservation.Id));
                             divReservation.append($('<label class="col-2"></label>').text(reservation.Voyage.Destination.Pays));
@@ -130,6 +139,7 @@
                             divReservation.append(buttonValider);
                             divReservation.append(buttonAccepter);
                             divReservation.append(buttonAnnuler);
+                            divReservation.append(buttonCloturer);
 
                             divListeReservations.append(divReservation);
                         }
@@ -158,7 +168,19 @@
                 url: '/api/AnnulerReservation/' + id,
                 success: function (reponse) {
                     var etat = $(input).find(".etat");
-                    etat.text(reponse);
+                    etat.text(switchEtat(reponse));
+                },
+                error: Erreur
+            });
+        }
+
+        function CloturerReservation(id, input) {
+            $.ajax({
+                type: 'PUT',
+                url: '/api/CloturerReservation/' + id,
+                success: function (reponse) {
+                    var etat = $(input).find(".etat");
+                    etat.text(switchEtat(reponse));
                 },
                 error: Erreur
             });
@@ -170,13 +192,9 @@
                 url: '/api/ValiderReservation/' + id,
                 success: function (reponse) {
                     var etat = $(input).find(".etat");
-                    etat.text(reponse);
-
+                    etat.text(switchEtat(reponse));
                 },
-                error: function (reponse) {
-                    var etat = $(input).find(".etat");
-                    etat.text('Refuse');
-                }
+                error: Erreur
             });
         }
 
@@ -186,13 +204,9 @@
                 url: '/api/AccepterReservation/' + id,
                 success: function (reponse) {
                     var etat = $(input).find(".etat");
-                    etat.text('Accepte');
-                    console.log(reponse);
+                    etat.text(switchEtat(reponse));
                 },
-                error: function () {
-                    var etat = $(input).find(".etat");
-                    etat.text('Refuse');
-                }
+                error: Erreur
             });
         }
 
