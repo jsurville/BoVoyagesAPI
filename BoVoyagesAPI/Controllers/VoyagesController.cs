@@ -36,6 +36,13 @@ namespace BoVoyagesAPI.Controllers
             return Ok(voyage);
         }
 
+        // GET: api/Voyages
+        [Route("api/Voyages/search")]
+        public IQueryable<Voyage> GetRechercherVoyages(string nom)
+        {
+            return db.Voyages.Include(x => x.Destination).Where(x => x.Destination.Description.Contains(nom) || x.Destination.Continent.Contains(nom) || x.Destination.Pays.Contains(nom) || x.Destination.Region.Contains(nom));
+        }
+
         // PUT: api/Voyages/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutVoyage(int id, Voyage voyage)
