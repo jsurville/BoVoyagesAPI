@@ -124,7 +124,9 @@
                 data: reservation,
                 dataType: "json",
                 success: function () {
+                    alert("Le Dossier de Réservation a bien été enregistré");
                     window.location.href = '/Front/Html/Reservations.html';
+
                 },
                 error: function () {
                     alert('Erreur creation doossier reservation!');
