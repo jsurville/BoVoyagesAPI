@@ -91,10 +91,18 @@ namespace BoVoyagesAPI.Controllers
         public IHttpActionResult DeleteClient(int id)
         {
             Client client = db.Clients.Find(id);
+
+            DossierReservation dossierReservation = db.DossierReservations.ToList().Find(x => x.ClientId == id);
+            
+
+
             if (client == null)
             {
                 return NotFound();
             }
+
+            if (dossierReservation != null)
+                return BadRequest("Client sélectionné est enregistré dans un Dossier de Réservation");
 
             db.Clients.Remove(client);
             db.SaveChanges();

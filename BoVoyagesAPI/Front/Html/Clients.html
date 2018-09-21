@@ -81,14 +81,12 @@
                     $.ajax({
                         url: '/api/Clients',
                         success: function (clients) {
-
-                           
                             divListeClients.empty();
                             if (clients.length > 0) {
                                 for (client of clients) {
                                     let divClient = $('<div class="Client alert alert-info col-12"> </div>');
                                     let idClient = divClient.attr("data-id", client.Id);
-
+                                    
                                     var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
                                     buttonDelete.on('click', function () {
                                         // Affichage d'une confirmation
@@ -98,6 +96,7 @@
                                         $.bsAlert.confirm("Es-tu sûr?", () => {
                                             let div = $(this).closest(".Client");
                                             let idClient = div.attr("data-id");
+                                            console.log(idClient);
                                             SupprimerClient(idClient);
                                         });
                                     });
@@ -174,6 +173,8 @@
                             LoadClients();
                             alert("Le Client a été supprimé")
                         }
+                        ,
+                        error: function (error) { alert(error) }
                     });
                 }
             </script>
