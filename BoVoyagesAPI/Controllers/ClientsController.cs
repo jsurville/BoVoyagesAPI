@@ -37,7 +37,7 @@ namespace BoVoyagesAPI.Controllers
         }
 
 
-        // GET: api/Clients
+        // GET: api/Clients/search
         [Route("api/Clients/search")]
         public IQueryable<Client> GetRechercherClient(string nom)
         {

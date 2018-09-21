@@ -26,6 +26,26 @@ namespace BoVoyagesAPI.Controllers
                 .Include(z => z.Assurances);
         }
 
+        // GET: api/DossierReservation/search
+        [Route("api/DossierReservation/search")]
+        [HttpGet]
+        public IQueryable<DossierReservation> GetRechercherReservations(DateTime? dateDebut,
+            DateTime? dateFin, string destination, string nomClient)
+        {
+            return db.DossierReservations.Include(x => x.Participants).Include(y => y.Client)
+                .Include(t => t.Voyage)
+                .Include(t => t.Voyage.Destination)
+                .Include(z => z.Assurances)
+                .Where(x => x.Voyage.Destination.Pays.Contains(destination)
+                || x.Voyage.Destination.Continent.Contains(destination)
+                || x.Voyage.Destination.Region.Contains(destination)
+                || x.Voyage.Destination.Description.Contains(destination)
+                || x.Client.Nom.Contains(nomClient)
+                || x.Client.Prenom.Contains(nomClient)
+                || (x.Voyage.DateAller> dateDebut 
+                && x.Voyage.DateRetour<dateFin));        
+        }
+
         // GET: api/DossierReservations/5
         [ResponseType(typeof(DossierReservation))]
         public IHttpActionResult GetDossierReservation(int id)
