@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-    <nav style="color:aquamarine" class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav style="color:aquamarine; background-color: #e3f2fd" class="navbar navbar-expand-sm navbar-light">
         <a class="navbar-brand" href="/Front/Html/Voyages.html"><i class="fas fa-check-double"></i> BoVoyage</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
@@ -38,16 +38,53 @@
                     <a class="nav-link" href="/Front/Html/Reservations.html">Réservations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Front/Html/Recherche.html">Rechercher </a>
+                    <a class="nav-link" href="/Front/Html/Recherche.html">Rechercher <img src="https://cours-informatique-gratuit.fr/wp-content/uploads/2014/05/moteur-de-recherche.png" height="25px"></a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="container-fluid col-12 ">
-        <h1>Liste des Clients</h1>
+        <h1>Recherche</h1>
         <br />
-        
+        <div class="container row">
+            <div class="col-4">
+                <form novalidate>
+                    <div class="form-group ">
+                        <label for="DateAller">Période</label>
+                        <a> De <input type="date" class="form-control" id="DateAller" /> </a> <br />
+                        <a> A <input type="date" class="form-control" id="DateAller" /> </a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <form novalidate>
+                    <div class="form-group ">
+                        <label for="Nom">Client ou participant</label>
+                        <input rows="3" type="text" class="form-control" id="Nom" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <form novalidate>
+                    <div class="form-group ">
+                        <label for="Nom">Destination</label>
+                        <input rows="3" type="text" class="form-control" id="Destination" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="return Rechercher();">Rechercher</button>
+            <a href="/Front/Html/Recherche.html" class="btn btn-light">Annuler</a>
+        </div>
+        <div>
+            <ul class="toolbar">
+                <li style="float:right"><a href="/Front/html/Voyages.html" class="btn btn-light">Retour</a></li>
+                <br>
+            </ul>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -60,6 +97,12 @@
 
     <script src="/Front/js/application.js"></script>
     
+    <script>
+        function Rechercher() {
+            alert("En cours");
+        }
+    </script>
+
     <script>
                 $(document).ready();
     </script>

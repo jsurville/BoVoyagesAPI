@@ -1,6 +1,6 @@
 body {
     font-family: Verdana, sans-serif;
-   background-color: wheat;
+   background-color: gainsboro;
     color:purple;
 }
 
@@ -36,7 +36,7 @@ li a {
     height: 100%;
 }
     li a:hover {
-        background-color: #555;
+        background-color: #ae8b8b ;
         text-decoration: none;
         color: RGB(70,100,170);
     }
@@ -49,6 +49,9 @@ button {
     margin-right: 15px;
 }
 
+.recherche{
+    float:right;
+}
 /* Loader */
 .loader {
     border: 3px solid #f3f3f3;

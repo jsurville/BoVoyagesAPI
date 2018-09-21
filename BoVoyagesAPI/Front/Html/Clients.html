@@ -8,20 +8,21 @@
           crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/Front/CSS/bootstrap-alert.min.css" />
     <link rel="stylesheet" href="/Front/CSS/application.css" />
     <style>
         .form-group {
             padding: 5px;
         }
-       
-            div.row {
-                padding: 5px;
-                border: none;
-            }
+
+        div.row {
+            padding: 5px;
+            border: none;
+        }
     </style>
 </head>
 <body>
-    <nav style="color:aquamarine" class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav style="color:aquamarine; background-color: #e3f2fd" class="navbar navbar-expand-sm navbar-light">
         <a class="navbar-brand" href="/Front/Html/Voyages.html"><i class="fas fa-check-double"></i> BoVoyage</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
@@ -38,7 +39,7 @@
                     <a class="nav-link" href="/Front/Html/Reservations.html">Réservations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Front/Html/Recherche.html">Rechercher </a>
+                    <a class="nav-link" href="/Front/Html/Recherche.html">Rechercher  <img src="https://cours-informatique-gratuit.fr/wp-content/uploads/2014/05/moteur-de-recherche.png" height="25px"> </a>
                 </li>
             </ul>
         </div>
@@ -57,9 +58,9 @@
             <label class="col-1">Nom</label>
             <label class="col-1">Prénom</label>
             <label class="col-2">Email</label>
-            <label class="col-2">Tel.</label>
+            <label class="col-1">Tel.</label>
             <label class="col-2">Adresse</label>
-            <label class="col-1">Date de Naissance</label>
+            <label class="col-2">Date de Naissance</label>
 
         </div>
         <div id="listeClients" class="col-12">
@@ -120,7 +121,7 @@
                                     divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
                                     divClient.append($('<label class="col-1"></label>').text(client.Prenom));
                                     divClient.append($('<label class="col-2"></label>').text(client.Email));
-                                    divClient.append($('<label class="col-2"></label>').text(client.Telephone));
+                                    divClient.append($('<label class="col-1"></label>').text(client.Telephone));
                                     divClient.append($('<label class="col-2"></label>').text(client.Adresse));
                                     divClient.append($('<label class="col-2"></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
                                     divListeClients.append(divClient);
