@@ -61,15 +61,20 @@
             <label class="col-2">Date de Naissance</label>
         </div>
         <div id="listeParticipants" class="col-12">
-
         </div>
-        <form class="row">
-
+        <h1>Recherche</h1>
+        <div class="container-fluid">
+            <form>
+                <div class="form-group col-3">
+                    <label for="Client"></label>
+                    <input rows="3" type="text" class="form-control" id="rechercheClient" />
+                </div>
+            </form>
             <div class="form-group actions">
-                <button class="btn btn-primary" onclick="return RechercherPersonne();">Rechercher </button>
-                <a href="/Front/Html/Recherche.html" class="btn btn-light">Annuler</a>
+                <button class="btn btn-primary" onclick="return Rechercherparticipant();">Rechercher un Participant</button>
+                <a href="/Front/Html/Participants.html" class="btn btn-light">Annuler</a>
             </div>
-        </form>
+        </div>
     </div>
 
 
