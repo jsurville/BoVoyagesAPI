@@ -95,10 +95,16 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
-
-            db.Voyages.Remove(voyage);
-            db.SaveChanges();
-
+            var dossierReservation = db.DossierReservations.ToList().Find(x => x.VoyageId  == id);
+            if (dossierReservation != null)
+            {
+                return BadRequest("le Voyage sélectionné est lié dans un Dossier de Réservation");
+            }
+            else
+            {
+                db.Voyages.Remove(voyage);
+                db.SaveChanges();
+            }
             return Ok(voyage);
         }
 

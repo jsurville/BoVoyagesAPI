@@ -6,3 +6,7 @@ function Erreur() {
 	alert("Erreur !");
 }
 
+function AfficheErreur(Erreur) {
+	alert(Erreur.responseJSON.Message);
+}
+
