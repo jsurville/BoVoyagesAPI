@@ -89,7 +89,7 @@ namespace BoVoyagesAPI.Controllers
             if (dossierReservation.Annuler())
             {
                 db.SaveChanges();
-                return StatusCode(HttpStatusCode.NoContent);
+                return Ok(dossierReservation.EtatDossierReservation);
             }
             else return BadRequest();       
         }
