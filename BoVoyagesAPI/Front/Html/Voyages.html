@@ -146,12 +146,12 @@
             });
         }
 
-        function RechercheVoyage(datedebut, nomVoyage) {
-            var divListeVoyages = $('#listeVoyages');
-            divListeVoyages.empty();
+        function RechercheVoyage(dateDebut, dateFin, destination) {
+
             $.ajax({
                 type: 'GET',
-                url: '/api/Voyages/search?nom=' + nomVoyage,
+                url: '/api/Voyages/search?dateDebut=' + dateDebut
+                    + '&dateFin=' + dateFin + '&destination=' + destination,              
                 success: AfficherVoyages,
                 error: function (erreur) {
                     alert(erreur.responseJSON.Message);
