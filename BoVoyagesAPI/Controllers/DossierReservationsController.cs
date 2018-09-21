@@ -10,7 +10,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using BoVoyagesAPI.Data;
 using BoVoyagesAPI.Models;
-using BoVoyagesAPI.Metier;
 
 namespace BoVoyagesAPI.Controllers
 {
@@ -87,27 +86,12 @@ namespace BoVoyagesAPI.Controllers
                 return NotFound();
             }
 
-            if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Clos
-                && dossierReservation.EtatDossierReservation != EtatDossierReservation.Annule)
+            if (dossierReservation.Annuler())
             {
-                if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Refuse)
-                {
-                    if (dossierReservation.EtatDossierReservation == EtatDossierReservation.Accepte)
-                    {
-                        if (dossierReservation.Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
-                        {
-                            var rembourser = new CarteBancaireService().Rembourser(dossierReservation.NumeroCarteBancaire,
-                                dossierReservation.PrixTotal);
-                        }
-                    }
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
-                }
-
-                dossierReservation.EtatDossierReservation = EtatDossierReservation.Annule;
                 db.SaveChanges();
+                return StatusCode(HttpStatusCode.NoContent);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            else return BadRequest();       
         }
 
         [ResponseType(typeof(void))]
@@ -120,23 +104,13 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
-
-            if (dossierReservation.EtatDossierReservation == EtatDossierReservation.EnAttente)
+            if (dossierReservation.Valider())
             {
-                var carteBancaireServie = new CarteBancaireService();
-                if (carteBancaireServie.ValiderSolvabilite(dossierReservation.NumeroCarteBancaire,
-                    dossierReservation.PrixTotal))
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.EnCours;
-                }    else
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
-                }
                 db.SaveChanges();
+                return Ok(dossierReservation.EtatDossierReservation);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            else
+                return BadRequest();       
         }
 
         [ResponseType(typeof(void))]
@@ -149,25 +123,15 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
+            var voyage = db.Voyages.Find(dossierReservation.VoyageId);
+            var placeDisponible = voyage.Reserver(dossierReservation.Participants.Count);
 
-            if (dossierReservation.EtatDossierReservation == EtatDossierReservation.EnCours)
-            {
-                var voyage = db.Voyages.Find(dossierReservation.VoyageId);
-                
-                if (voyage !=null && voyage.PlacesDisponibles >= dossierReservation.Participants.Count)
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Accepte;
-                    voyage.PlacesDisponibles -= dossierReservation.Participants.Count;
-                }
-                else
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PlacesInsuffisantes;
-                }
-                db.SaveChanges();
-            }
+            if (dossierReservation.Accepter(placeDisponible))            
+                db.SaveChanges();            
+            else
+                return BadRequest();
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(dossierReservation.EtatDossierReservation);
         }
 
         // POST: api/DossierReservations

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using BoVoyagesAPI.Services;
 
 namespace BoVoyagesAPI.Models
 {
@@ -53,9 +54,68 @@ namespace BoVoyagesAPI.Models
 
         public ICollection<Assurance> Assurances { get; set; }
         public ICollection<Participant> Participants { get; set; }
+
+        public bool Accepter(bool placeDisponible)
+        {
+            if (EtatDossierReservation != EtatDossierReservation.EnCours)
+                return false;
+            if (placeDisponible)
+            {
+                EtatDossierReservation = EtatDossierReservation.Accepte;
+            }
+            else
+            {
+                EtatDossierReservation = EtatDossierReservation.Refuse;
+                RaisonAnnulationDossier = RaisonAnnulationDossier.PlacesInsuffisantes;
+            }
+            return true;
+        }
+
+        public bool Annuler()
+        {
+            if (EtatDossierReservation == EtatDossierReservation.Clos
+                || EtatDossierReservation == EtatDossierReservation.Annule)
+                return false;           
+            EtatDossierReservation = EtatDossierReservation.Annule;
+
+            if (EtatDossierReservation != EtatDossierReservation.Refuse)
+            {
+                if (EtatDossierReservation == EtatDossierReservation.Accepte)
+                {
+                    if (Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
+                    {
+                        var rembourser = new CarteBancaireService().Rembourser(NumeroCarteBancaire,
+                            PrixTotal);
+                    }
+                }
+                RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
+            }
+
+                return true;
+        }
+
+        public bool Valider()
+        {
+            if (EtatDossierReservation != EtatDossierReservation.EnAttente)
+                return false;
+            var carteBancaireServie = new CarteBancaireService();
+            if (carteBancaireServie.ValiderSolvabilite(NumeroCarteBancaire,
+                PrixTotal))
+            {
+                EtatDossierReservation = EtatDossierReservation.EnCours;
+            }
+            else
+            {
+                EtatDossierReservation = EtatDossierReservation.Refuse;
+                RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
+            }
+            return true;
+        }
     }
 
 
     public enum EtatDossierReservation { EnAttente, EnCours, Refuse, Accepte, Clos, Annule }
     public enum RaisonAnnulationDossier { Client = 1, PlacesInsuffisantes = 2, PaiementRefuse = 3 }
+
+  
 }
