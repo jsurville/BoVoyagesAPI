@@ -156,8 +156,9 @@
                     alert("Le Participant a bien été enregistré ")
                     //window.location.href = '/index.html';
                 },
-                error: function () {
-                    alert("Impossible d'enregistrer ce nouveau Participant  ");
+                error: function (erreur) {
+                    
+                    alert(erreur.responseJSON.Message);
                 }
             });
 
