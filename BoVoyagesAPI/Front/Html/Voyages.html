@@ -76,12 +76,12 @@
             <form >
                 <div class="form-group col-3">
                     <label for="Destiçnation">Destination</label>
-                    <input rows="3" type="text" class="form-control" id="rechercheVoyage" />
+                    <input rows="3" type="text" class="form-control" id="Destination" />
                 </div>
 
             </form>
             <div class="form-group actions">
-                <button class="btn btn-primary" onclick="return RechercheVoyage($('#rechercheVoyage').val());">Rechercher Voyages</button>
+                <button class="btn btn-primary" onclick="return RechercheVoyage($('#DateDebut').val(), $('#DateDeFin').val(),$('#Destination').val());">Rechercher Voyages</button>
                 <a href="/Front/Html/Voyages.html" class="btn btn-light">Annuler</a>
             </div>
         </div>
@@ -146,12 +146,12 @@
             });
         }
 
-        function RechercheVoyage(nomVoyage) {
-            var divListeVoyages = $('#listeVoyages');
-            divListeVoyages.empty();
+        function RechercheVoyage(dateDebut, dateFin, destination) {
+
             $.ajax({
                 type: 'GET',
-                url: '/api/Voyages/search?nom=' + nomVoyage,
+                url: '/api/Voyages/search?dateDebut=' + dateDebut
+                    + '&dateFin=' + dateFin + '&destination=' + destination,              
                 success: AfficherVoyages,
                 error: function (erreur) {
                     alert(erreur.responseJSON.Message);

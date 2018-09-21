@@ -115,6 +115,8 @@
     <Content Include="Front\js\bootstrap-alert.min.js" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <None Include="Properties\PublishProfiles\BoVoyagesApiJuChi - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\GTMChi - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
