@@ -10,7 +10,7 @@ namespace BoVoyagesAPI.Models
 {
     public class DossierReservation
     {
-      public  DossierReservation()
+        public DossierReservation()
         {
             this.Participants = new HashSet<Participant>();
             this.Assurances = new HashSet<Assurance>();
@@ -75,7 +75,7 @@ namespace BoVoyagesAPI.Models
         {
             if (EtatDossierReservation == EtatDossierReservation.Clos
                 || EtatDossierReservation == EtatDossierReservation.Annule)
-                return false;           
+                return false;
             EtatDossierReservation = EtatDossierReservation.Annule;
 
             if (EtatDossierReservation != EtatDossierReservation.Refuse)
@@ -91,7 +91,7 @@ namespace BoVoyagesAPI.Models
                 RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
             }
 
-                return true;
+            return true;
         }
 
         public bool ValiderSolvabilite()
@@ -111,11 +111,19 @@ namespace BoVoyagesAPI.Models
             }
             return true;
         }
+
+        public bool Cloturer()
+        {
+            if (EtatDossierReservation != EtatDossierReservation.Accepte)
+                return false;
+            EtatDossierReservation = EtatDossierReservation.Clos;
+            return true;
+        }
     }
 
 
     public enum EtatDossierReservation { EnAttente, EnCours, Refuse, Accepte, Clos, Annule }
     public enum RaisonAnnulationDossier { Client = 1, PlacesInsuffisantes = 2, PaiementRefuse = 3 }
 
-  
+
 }

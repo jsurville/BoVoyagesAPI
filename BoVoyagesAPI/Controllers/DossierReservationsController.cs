@@ -95,6 +95,25 @@ namespace BoVoyagesAPI.Controllers
         }
 
         [ResponseType(typeof(void))]
+        [Route("api/CloturerReservation/{id}")]
+        [HttpPut]
+        public IHttpActionResult PutCloturerReservation(int id)
+        {
+            DossierReservation dossierReservation = db.DossierReservations.Find(id);
+            if (dossierReservation == null)
+            {
+                return NotFound();
+            }
+
+            if (dossierReservation.Cloturer())
+            {
+                db.SaveChanges();
+                return Ok(dossierReservation.EtatDossierReservation);
+            }
+            else return BadRequest();
+        }
+
+        [ResponseType(typeof(void))]
         [Route("api/ValiderReservation/{id}")]
         [HttpPut]
         public IHttpActionResult PutValiderReservation(int id)
