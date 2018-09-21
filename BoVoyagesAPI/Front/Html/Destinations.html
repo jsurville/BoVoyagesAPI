@@ -51,23 +51,31 @@
                 <br />
             </ul>
         </div>
-        <div >
-            
-                <label class="col-1">Id</label>
-                <label class="col-2">Continent</label>
-                <label class="col-2">Pays</label>
-                <label class="col-2">Région</label>
-                <label class="col-3">Description</label>
-            
+        <div>
+
+            <label class="col-1">Id</label>
+            <label class="col-2">Continent</label>
+            <label class="col-2">Pays</label>
+            <label class="col-2">Région</label>
+            <label class="col-3">Description</label>
+
         </div>
         <div id="listeDestinations" class="col-12">
 
-        </div >
+        </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="/Front/JS/application.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script src="/Front/js/bootstrap-alert.min.js"></script>
+
+    <script src="/Front/js/application.js"></script>
     <script>
+        LoadDestinations();
         function LoadDestinations() {
             var divListeDestinations = $('#listeDestinations');
             setLoader(divListeDestinations);
@@ -98,11 +106,18 @@
             divDestination.append($('<label class="col-2"></label>').text(destination.Pays));
             divDestination.append($('<label class="col-2"></label>').text(destination.Region));
             divDestination.append($('<label class="col-4"></label>').text(destination.Description));
-                                                       
+
             var boutonSupprimer = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
             boutonSupprimer.on('click', function () {
-                var idDestination = $(this).closest('.Destination').data('id');
-                Supprimer(idDestination);
+                $.bsAlert.confirmTitle = 'Suppression';
+                $.bsAlert.closeDisplay = 'Non';
+                $.bsAlert.sureDisplay = 'Oui';
+                $.bsAlert.confirm("Es-tu sûr?", () => {
+                    
+                    let idDestination = divDestination.data("id");
+                    console.log(idDestination);
+                    Supprimer(idDestination);
+                });
             });
             divDestination.append(boutonSupprimer);
 
@@ -167,24 +182,22 @@
             });
         }
 
-        function Supprimer(idCategorie) {
+        function Supprimer(idDestination) {
             $.ajax({
                 type: 'DELETE',
                 url: '/api/Destinations/' + idDestination,
                 success: function () {
+                    jQuery('#listeDestinations').empty();
+                    alert("La Destination a bien été supprimée");
                     LoadDestinations();
                 },
-                error: function () {
-                    alert('Impossible de supprimer. Peut-être la Destination est liée à une tache?');
+                error: function (erreur) {
+                    console.log(erreur);
+                    alert(erreur.responseJSON.Message);
                 }
             });
         }
 
-        function AnnulerModification(divCategorie) {
-            let idCategorie = divCategorie.data('id');
-            let nomCategorie = divCategorie.data('nom'); // nom que j'avais stocké plus haut
-            RemplirDivCategorie(divCategorie, { ID: idCategorie, Nom: nomCategorie });
-        }
         function EnregistrerModification(divCategorie) {
             let idCategorie = divCategorie.data('id');
             let nomCategorie = divCategorie.find('input').val();
@@ -203,8 +216,7 @@
         }
 
         $(document).ready(function () {
-            LoadDestinations();
-
+           
         });
     </script>
 </body>
