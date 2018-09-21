@@ -67,11 +67,11 @@
             <form>
                 <div class="form-group col-3">
                     <label for="Client"></label>
-                    <input rows="3" type="text" class="form-control" id="rechercheClient" />
+                    <input rows="3" type="text" class="form-control" id="rechercheParticipant" />
                 </div>
             </form>
             <div class="form-group actions">
-                <button class="btn btn-primary" onclick="return Rechercherparticipant();">Rechercher un Participant</button>
+                <button class="btn btn-primary" onclick="return RechercherParticipant($('#rechercheParticipant').val());">Rechercher un Participant</button>
                 <a href="/Front/Html/Participants.html" class="btn btn-light">Annuler</a>
             </div>
         </div>
@@ -96,7 +96,6 @@
                 type: 'GET',
                 url: '/api/Participants/',
                 success: function (participants) {
-                  
                     divListeParticipants.empty();
                     if (participants.length > 0) {
                         for (participant of participants) {
@@ -121,7 +120,6 @@
                                     let id = divParticipant.attr("data-id");
                                     console.log(id);
                                     SupprimerParticipant(id);
-
                                 });
                             });
                             divParticipant.append(buttonDelete);
@@ -139,6 +137,63 @@
                 }
             })
         };
+
+        function RechercherParticipant(nomParticipant) {
+            console.log(nomParticipant);
+            var divListeParticipants = $('#listeParticipants');
+            divListeParticipants.empty();
+            $.ajax({
+                type: 'GET',
+                url: '/api/Participants/search?nom=' + nomParticipant,
+                success: AfficherParticipants,
+                error: function (erreur) {
+                    alert(erreur.responseJSON.Message);
+                }
+            });
+            return false;
+        }
+
+
+        function AfficherParticipants(participants) {
+            var divListeParticipants = $('#listeParticipants');
+            divListeParticipants.empty();
+            if (participants.length > 0) {
+                for (participant of participants) {
+                    let divParticipant = $('<div class="Participant alert alert-info col-12"> </div>');
+                    divParticipant.attr("data-id", participant.Id);
+
+                    if (participant.Civilite == 2) {
+                        participant.Civilite = "Mr";
+                    }
+                    if (participant.Civilite == 1) {
+                        participant.Civilite = "Mme";
+                    }
+                    var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                    buttonDelete.on('click', function () {
+                        // Affichage d'une confirmation
+                        $.bsAlert.confirmTitle = 'Suppression';
+                        $.bsAlert.closeDisplay = 'Non';
+                        $.bsAlert.sureDisplay = 'Oui';
+                        $.bsAlert.confirm("Es-tu sûr?", () => {
+                            let divParticipant = $(this).closest(".Participant");
+                            let id = divParticipant.attr("data-id");
+                            console.log(id);
+                            SupprimerParticipant(id);
+                        });
+                    });
+                    divParticipant.append(buttonDelete);
+                    divParticipant.append($('<label class="col-1"></label>').text(participant.NumeroUnique));
+                    divParticipant.append($('<label class="col-2"></label>').text(participant.DossierReservationId));
+                    divParticipant.append($('<label class="col-3"></label>').text(participant.NomComplet));
+                    divParticipant.append($('<label class="col-2"></label>').text(participant.Telephone));
+                    divParticipant.append($('<label class="col-2"></label>').text(moment(participant.DateNaissance).format('DD/MM/YYYY')));
+                    divListeParticipants.append(divParticipant);
+                }
+            }
+            else {
+                divListeParticipants.append($('<p class="lead">Aucun Participant pour le moment...</p>'));
+            }
+        }
 
         function SupprimerParticipant(idParticipant) {
             console.log(idParticipant);
