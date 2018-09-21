@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BoVoyagesAPI.Data;
+using BoVoyagesAPI.Models;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using BoVoyagesAPI.Data;
-using BoVoyagesAPI.Models;
 
 namespace BoVoyagesAPI.Controllers
 {
@@ -27,7 +25,7 @@ namespace BoVoyagesAPI.Controllers
         [ResponseType(typeof(Voyage))]
         public IHttpActionResult GetVoyage(int id)
         {
-            Voyage voyage = db.Voyages.Include(x => x.Destination).Include(y => y.AgenceVoyage).SingleOrDefault(z => z.Id == id );
+            Voyage voyage = db.Voyages.Include(x => x.Destination).Include(y => y.AgenceVoyage).SingleOrDefault(z => z.Id == id);
             if (voyage == null)
             {
                 return NotFound();
@@ -38,9 +36,15 @@ namespace BoVoyagesAPI.Controllers
 
         // GET: api/Voyages
         [Route("api/Voyages/search")]
-        public IQueryable<Voyage> GetRechercherVoyages(string nom)
+        public IQueryable<Voyage> GetRechercherVoyages(DateTime? dateDebut, DateTime? dateFin, string nom)
         {
-            return db.Voyages.Include(x => x.Destination).Where(x => x.Destination.Description.Contains(nom) || x.Destination.Continent.Contains(nom) || x.Destination.Pays.Contains(nom) || x.Destination.Region.Contains(nom));
+            return db.Voyages.Include(x => x.Destination)
+                .Where(x => x.Destination.Description.Contains(nom)
+                || x.Destination.Continent.Contains(nom)
+                || x.Destination.Pays.Contains(nom)
+                || x.Destination.Region.Contains(nom)
+                 || (x.DateAller > dateDebut
+                && x.DateRetour < dateFin));
         }
 
         // PUT: api/Voyages/5
@@ -87,13 +91,14 @@ namespace BoVoyagesAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (voyage.DateAller > DateTime.Now.AddDays(3) && voyage.DateRetour > voyage.DateAller.AddDays(2) )
+            if (voyage.DateAller > DateTime.Now.AddDays(3) && voyage.DateRetour > voyage.DateAller.AddDays(2))
             {
                 db.Voyages.Add(voyage);
                 db.SaveChanges();
 
                 return CreatedAtRoute("DefaultApi", new { id = voyage.Id }, voyage);
-            } else
+            }
+            else
                 return BadRequest("Mauvaise Date");
 
         }
@@ -107,7 +112,7 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
-            var dossierReservation = db.DossierReservations.ToList().Find(x => x.VoyageId  == id);
+            var dossierReservation = db.DossierReservations.ToList().Find(x => x.VoyageId == id);
             if (dossierReservation != null)
             {
                 return BadRequest("le Voyage sélectionné est lié dans un Dossier de Réservation");
