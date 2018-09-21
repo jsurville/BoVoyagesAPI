@@ -10,7 +10,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using BoVoyagesAPI.Data;
 using BoVoyagesAPI.Models;
-using BoVoyagesAPI.Metier;
 
 namespace BoVoyagesAPI.Controllers
 {
@@ -92,29 +91,7 @@ namespace BoVoyagesAPI.Controllers
                 db.SaveChanges();
                 return StatusCode(HttpStatusCode.NoContent);
             }
-            else return BadRequest();
-            /*
-            if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Clos
-                && dossierReservation.EtatDossierReservation != EtatDossierReservation.Annule)
-            {
-                if (dossierReservation.EtatDossierReservation != EtatDossierReservation.Refuse)
-                {
-                    if (dossierReservation.EtatDossierReservation == EtatDossierReservation.Accepte)
-                    {
-                        if (dossierReservation.Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
-                        {
-                            var rembourser = new CarteBancaireService().Rembourser(dossierReservation.NumeroCarteBancaire,
-                                dossierReservation.PrixTotal);
-                        }
-                    }
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
-                }
-
-                dossierReservation.EtatDossierReservation = EtatDossierReservation.Annule;
-                
-            }
-           
-            return StatusCode(HttpStatusCode.NoContent);*/
+            else return BadRequest();       
         }
 
         [ResponseType(typeof(void))]
@@ -127,24 +104,13 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
-
-            if (dossierReservation.EtatDossierReservation == EtatDossierReservation.EnAttente)
+            if (dossierReservation.Valider())
             {
-                var carteBancaireServie = new CarteBancaireService();
-                if (carteBancaireServie.ValiderSolvabilite(dossierReservation.NumeroCarteBancaire,
-                    dossierReservation.PrixTotal))
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.EnCours;
-                }
-                else
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
-                }
                 db.SaveChanges();
+                return Ok(dossierReservation.EtatDossierReservation);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            else
+                return BadRequest();       
         }
 
         [ResponseType(typeof(void))]

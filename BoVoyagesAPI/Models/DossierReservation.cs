@@ -93,6 +93,24 @@ namespace BoVoyagesAPI.Models
 
                 return true;
         }
+
+        public bool Valider()
+        {
+            if (EtatDossierReservation != EtatDossierReservation.EnAttente)
+                return false;
+            var carteBancaireServie = new CarteBancaireService();
+            if (carteBancaireServie.ValiderSolvabilite(NumeroCarteBancaire,
+                PrixTotal))
+            {
+                EtatDossierReservation = EtatDossierReservation.EnCours;
+            }
+            else
+            {
+                EtatDossierReservation = EtatDossierReservation.Refuse;
+                RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
+            }
+            return true;
+        }
     }
 
 
