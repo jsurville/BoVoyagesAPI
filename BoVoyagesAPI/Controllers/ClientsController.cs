@@ -94,20 +94,22 @@ namespace BoVoyagesAPI.Controllers
 
             DossierReservation dossierReservation = db.DossierReservations.ToList().Find(x => x.ClientId == id);
             
-
-
             if (client == null)
             {
                 return NotFound();
             }
-
             if (dossierReservation != null)
-                return BadRequest("Client sélectionné est enregistré dans un Dossier de Réservation");
+            {
+                return BadRequest("Impossible: le Client sélectionné est enregistré dans un Dossier de Réservation");
+            }
+            else
+            {
+                db.Clients.Remove(client);
+                db.SaveChanges();
 
-            db.Clients.Remove(client);
-            db.SaveChanges();
-
-            return Ok(client);
+                return Ok(client);
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

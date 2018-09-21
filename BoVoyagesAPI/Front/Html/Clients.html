@@ -174,7 +174,10 @@
                             alert("Le Client a été supprimé")
                         }
                         ,
-                        error: function (error) { alert(error) }
+                        error: function (erreur) {
+                            console.log(erreur);
+                            alert(erreur.responseJSON.Message);
+                        }
                     });
                 }
             </script>
