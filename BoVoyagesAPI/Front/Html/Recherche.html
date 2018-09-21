@@ -13,7 +13,7 @@
         .form-group {
             padding: 5px;
         }
-
+        
         div.row {
             padding: 5px;
             border: none;
@@ -44,48 +44,41 @@
         </div>
     </nav>
 
-    <div class="container-fluid col-12 ">
-        <h1>Recherche</h1>
-        <br />
-        <div class="container row">
-            <div class="col-4">
-                <form novalidate>
-                    <div class="form-group ">
-                        <label for="DateAller">Période</label>
-                        <a> De <input type="date" class="form-control" id="DateAller" /> </a> <br />
-                        <a> A <input type="date" class="form-control" id="DateAller" /> </a>
-                    </div>
-                </form>
-            </div>
-            <div class="col-4">
-                <form novalidate>
-                    <div class="form-group ">
-                        <label for="Nom">Client ou participant</label>
-                        <input rows="3" type="text" class="form-control" id="Nom" />
-                    </div>
-                </form>
-            </div>
-            <div class="col-4">
-                <form novalidate>
-                    <div class="form-group ">
-                        <label for="Nom">Destination</label>
-                        <input rows="3" type="text" class="form-control" id="Destination" />
-                    </div>
-                </form>
-            </div>
 
-        </div>
-        <div class="actions">
-            <button class="btn btn-primary" onclick="return Rechercher();">Rechercher</button>
-            <a href="/Front/Html/Recherche.html" class="btn btn-light">Annuler</a>
+    <div class="container col-12">
+        <h1>Rechercher</h1>
+        <br />
+        <div>
+            <form novalidate class="row">
+                <div class="form-group col-3">
+                    <label for="DateAller">Période</label>
+                    <a> De <input type="date" class="form-control" id="DateDebut" /> </a> <br />
+                    <a> A <input type="date" class="form-control" id="DateFin" /> </a>
+                </div>
+                <div class="form-group col-4">
+                    <label for="Client">Client ou participant</label>
+                    <input rows="3" type="text" class="form-control" id="Client" />
+                </div>
+                <div class="form-group col-4">
+                    <label for="Destiçnation">Destination</label>
+                    <input rows="3" type="text" class="form-control" id="Destination" />
+                </div>
+            </form>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="return Rechercher();">Rechercher</button>
+                <a href="/Front/Html/Recherche.html" class="btn btn-light">Annuler</a>
+            </div>
         </div>
         <div>
             <ul class="toolbar">
                 <li style="float:right"><a href="/Front/html/Voyages.html" class="btn btn-light">Retour</a></li>
-                <br>
             </ul>
         </div>
+
     </div>
+
+    
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -96,7 +89,7 @@
     <script src="/Front/js/bootstrap-alert.min.js"></script>
 
     <script src="/Front/js/application.js"></script>
-    
+
     <script>
         function Rechercher() {
             alert("En cours");
@@ -104,7 +97,7 @@
     </script>
 
     <script>
-                $(document).ready();
+        $(document).ready();
     </script>
 </body>
 </html>
