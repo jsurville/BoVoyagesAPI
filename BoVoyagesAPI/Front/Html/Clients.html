@@ -14,7 +14,7 @@
         .form-group {
             padding: 5px;
         }
-
+       
         div.row {
             padding: 5px;
             border: none;
@@ -63,23 +63,26 @@
         <div id="listeClients" class="col-12">
 
         </div>
-        
+
         <h1>Recherche</h1>
 
         <div class="container-fluid">
-            
-            <form>
+
+            <form >
                 <div class="form-group col-3">
                     <label for="Client"></label>
                     <input rows="3" type="text" class="form-control" id="rechercheClient" />
                 </div>
-
+                <div class="form-group actions">
+                    <button class="btn btn-primary" onclick="return RechercherClient($('#rechercheClient').val());">Rechercher un Client</button>
+                    <a href="/Front/Html/Clients.html" class="btn btn-light">Annuler</a>
+                </div>
             </form>
-            <div class="form-group actions">
-                <button class="btn btn-primary" onclick="return RechercherClient();">Rechercher un Client</button>
-                <a href="/Front/Html/Clients.html" class="btn btn-light">Annuler</a>
-            </div>
+            
+            
+
         </div>
+        
     </div>
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -92,7 +95,7 @@
 
             <script src="/Front/js/application.js"></script>
             <script>
-                LoadClients();
+               // LoadClients();
                 function LoadClients() {
                     var divListeClients = $('#listeClients');
                     setLoader(divListeClients);
@@ -190,6 +193,73 @@
                         }
                     });
                 }
+
+                function RechercherClient(nomClient) {
+                    console.log(nomClient);
+                    
+                    var divListeClients = $('#listeClients');
+                    divListeClients.empty();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Clients/search?nom=' + nomClient,
+                        success: AfficherClients,
+                        error: function (erreur) {
+                            alert(erreur.responseJSON.Message);
+                        }
+                    });
+                    return false;
+                }
+
+                function AfficherClients(clients) {
+                    var divListeClients = $('#listeClients');
+                    divListeClients.empty();
+                    if (clients.length > 0) {
+                        for (client of clients) {
+                            let divClient = $('<div class="Client alert alert-info col-12"> </div>');
+                            let idClient = divClient.attr("data-id", client.Id);
+                            console.log(idClient);
+                            var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                            buttonDelete.on('click', function () {
+                                // Affichage d'une confirmation
+                                $.bsAlert.confirmTitle = 'Suppression';
+                                $.bsAlert.closeDisplay = 'Non';
+                                $.bsAlert.sureDisplay = 'Oui';
+                                $.bsAlert.confirm("Es-tu sûr?", () => {
+                                    let div = $(this).closest(".Client");
+                                    let idClient = div.attr("data-id");
+                                    console.log(idClient);
+                                    SupprimerClient(idClient);
+                                });
+                            });
+                            var buttonModif = $('<button class="btn btn-primary btn-sm" style="float:right"><i class="fas fa-edit"></i></button>');
+                            buttonModif.on('click', function () {
+                                ModifierClient($(this));
+                            });
+
+                            divClient.append(buttonDelete);
+                            divClient.append(buttonModif);
+                            if (client.Civilite == 2) {
+                                client.Civilite = "Mr";
+                            }
+                            if (client.Civilite == 1) {
+                                client.Civilite = "Mme";
+                            }
+                            divClient.append($('<label class="col-1"></label>').text(client.Civilite));
+                            divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
+                            divClient.append($('<label class="col-1"></label>').text(client.Prenom));
+                            divClient.append($('<label class="col-2"></label>').text(client.Email));
+                            divClient.append($('<label class="col-1"></label>').text(client.Telephone));
+                            divClient.append($('<label class="col-2"></label>').text(client.Adresse));
+                            divClient.append($('<label class="col-2"></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
+                            divListeClients.append(divClient);
+                        }
+                    }
+                    else {
+                        divListeClients.append($('<p class="lead">Aucun Client pour le moment...</p>'));
+                    }
+                }
+
+
             </script>
             <script>
                 $(document).ready(LoadClients);

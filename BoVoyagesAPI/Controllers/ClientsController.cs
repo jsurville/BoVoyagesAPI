@@ -36,6 +36,14 @@ namespace BoVoyagesAPI.Controllers
             return Ok(client);
         }
 
+
+        // GET: api/Clients
+        [Route("api/Clients/search")]
+        public IQueryable<Client> GetRechercherClient(string nom)
+        {
+            return db.Clients.Where(x => x.Nom.Contains(nom) || x.Prenom.Contains(nom));
+        }
+
         // PUT: api/Clients/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutClient(int id, Client client)
