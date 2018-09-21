@@ -79,14 +79,16 @@ namespace BoVoyagesAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if(db.Participants.ToList().Where(x => x.DossierReservationId == participant.DossierReservationId).Count() <0 )
+            if(db.Participants.ToList().Where(x => x.DossierReservationId == participant.DossierReservationId).Count() < 9 
+                && participant.DateNaissance.AddDays(180) < DateTime.Now)
             {
                 db.Participants.Add(participant);
                 db.SaveChanges();
             }
             else
             {
-                return BadRequest("Impossible: le nombre maximum de participant est atteint");
+                return BadRequest("Le nombre maximum de participant est atteint" +
+                    " ou trop jeune pour voyager");
             }
             
             return CreatedAtRoute("DefaultApi", new { id = participant.Id }, participant);

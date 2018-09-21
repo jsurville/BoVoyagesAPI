@@ -80,8 +80,15 @@ namespace BoVoyagesAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Clients.Add(client);
-            db.SaveChanges();
+            if (client.DateNaissance.AddYears(18) < DateTime.Now)
+            {
+                db.Clients.Add(client);
+                db.SaveChanges();
+            }
+            else
+            {
+                return BadRequest("Client non majeur");
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = client.Id }, client);
         }
