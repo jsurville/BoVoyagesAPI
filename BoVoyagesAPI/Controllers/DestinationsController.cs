@@ -91,15 +91,25 @@ namespace BoVoyagesAPI.Controllers
         public IHttpActionResult DeleteDestination(int id)
         {
             Destination destination = db.Destinations.Find(id);
+            var possedeVoyages = db.Voyages.Any(x => x.DestinationId == id);
+
             if (destination == null)
             {
                 return NotFound();
             }
 
-            db.Destinations.Remove(destination);
-            db.SaveChanges();
+            if (possedeVoyages)
+            {
+                return BadRequest("Impossible: un Voyage est enregistré pour cette Destination");
+            }
+            else
+            {
+                db.Destinations.Remove(destination);
+                db.SaveChanges();
 
-            return Ok(destination);
+                return Ok(destination);
+            }
+            
         }
 
         protected override void Dispose(bool disposing)
