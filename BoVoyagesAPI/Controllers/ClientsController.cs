@@ -84,13 +84,12 @@ namespace BoVoyagesAPI.Controllers
             {
                 db.Clients.Add(client);
                 db.SaveChanges();
+                return CreatedAtRoute("DefaultApi", new { id = client.Id }, client);
             }
             else
             {
                 return BadRequest("Client non majeur");
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = client.Id }, client);
+            }            
         }
 
         // DELETE: api/Clients/5
