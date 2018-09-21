@@ -94,7 +94,7 @@ namespace BoVoyagesAPI.Models
                 return true;
         }
 
-        public bool Valider()
+        public bool ValiderSolvabilite()
         {
             if (EtatDossierReservation != EtatDossierReservation.EnAttente)
                 return false;

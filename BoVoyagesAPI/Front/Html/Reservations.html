@@ -14,10 +14,11 @@
         .form-group {
             padding: 5px;
         }
-            div.row {
-                padding: 5px;
-                border: none;
-            }
+
+        div.row {
+            padding: 5px;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +50,7 @@
                 <br />
             </ul>
         </div>
-       
+
         <div>
             <label class="col-1">Id</label>
             <label class="col-2">Destination</label>
@@ -102,6 +103,7 @@
                             buttonAccepter.on('click', function () {
                                 var div = $(this).closest(".Reservation");
                                 var idReservation = div.attr("data-id");
+
                                 if (etat == 'EnCours')
                                     AccepterReservation(idReservation, div);
                             });
@@ -110,6 +112,7 @@
                             buttonAnnuler.on('click', function () {
                                 var div = $(this).closest(".Reservation");
                                 var idReservation = div.attr("data-id");
+
                                 if (etat != 'Clos' && etat != 'Annule')
                                     AnnulerReservation(idReservation, div);
                             });
@@ -149,9 +152,9 @@
             $.ajax({
                 type: 'PUT',
                 url: '/api/AnnulerReservation/' + id,
-                success: function () {
+                success: function (reponse) {
                     var etat = $(input).find(".etat");
-                    etat.text('Annule');
+                    etat.text(reponse);
                 },
                 error: Erreur
             });
@@ -161,11 +164,12 @@
             $.ajax({
                 type: 'PUT',
                 url: '/api/ValiderReservation/' + id,
-                success: function () {
+                success: function (reponse) {
                     var etat = $(input).find(".etat");
-                    etat.text('EnCours');
+                    etat.text(reponse);
+
                 },
-                error: function () {
+                error: function (reponse) {
                     var etat = $(input).find(".etat");
                     etat.text('Refuse');
                 }
@@ -176,9 +180,10 @@
             $.ajax({
                 type: 'PUT',
                 url: '/api/AccepterReservation/' + id,
-                success: function () {
+                success: function (reponse) {
                     var etat = $(input).find(".etat");
                     etat.text('Accepte');
+                    console.log(reponse);
                 },
                 error: function () {
                     var etat = $(input).find(".etat");

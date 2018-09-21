@@ -104,7 +104,7 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
-            if (dossierReservation.Valider())
+            if (dossierReservation.ValiderSolvabilite())
             {
                 db.SaveChanges();
                 return Ok(dossierReservation.EtatDossierReservation);
