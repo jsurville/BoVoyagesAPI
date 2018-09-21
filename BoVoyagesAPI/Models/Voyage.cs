@@ -24,5 +24,16 @@ namespace BoVoyagesAPI.Models
         public Destination Destination { get; set; }
         [ForeignKey("AgenceVoyageId")]
         public AgenceVoyage AgenceVoyage { get; set; }
+
+        public bool Reserver(int nombreParticipants)
+        {
+            if (PlacesDisponibles > nombreParticipants)
+            {
+                PlacesDisponibles -= nombreParticipants;
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

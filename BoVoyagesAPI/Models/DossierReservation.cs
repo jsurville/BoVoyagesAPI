@@ -53,9 +53,27 @@ namespace BoVoyagesAPI.Models
 
         public ICollection<Assurance> Assurances { get; set; }
         public ICollection<Participant> Participants { get; set; }
+
+        public bool Accepter(bool placeDisponible)
+        {
+            if (EtatDossierReservation != EtatDossierReservation.EnCours)
+                return false;
+            if (placeDisponible)
+            {
+                EtatDossierReservation = EtatDossierReservation.Accepte;
+            }
+            else
+            {
+                EtatDossierReservation = EtatDossierReservation.Refuse;
+                RaisonAnnulationDossier = RaisonAnnulationDossier.PlacesInsuffisantes;
+            }
+            return true;
+        }
     }
 
 
     public enum EtatDossierReservation { EnAttente, EnCours, Refuse, Accepte, Clos, Annule }
     public enum RaisonAnnulationDossier { Client = 1, PlacesInsuffisantes = 2, PaiementRefuse = 3 }
+
+  
 }

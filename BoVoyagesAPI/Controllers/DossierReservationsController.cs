@@ -128,7 +128,8 @@ namespace BoVoyagesAPI.Controllers
                     dossierReservation.PrixTotal))
                 {
                     dossierReservation.EtatDossierReservation = EtatDossierReservation.EnCours;
-                }    else
+                }
+                else
                 {
                     dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
                     dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PaiementRefuse;
@@ -149,25 +150,15 @@ namespace BoVoyagesAPI.Controllers
             {
                 return NotFound();
             }
+            var voyage = db.Voyages.Find(dossierReservation.VoyageId);
+            var placedisponible = voyage.Reserver(dossierReservation.Participants.Count);
 
-            if (dossierReservation.EtatDossierReservation == EtatDossierReservation.EnCours)
-            {
-                var voyage = db.Voyages.Find(dossierReservation.VoyageId);
-                
-                if (voyage !=null && voyage.PlacesDisponibles >= dossierReservation.Participants.Count)
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Accepte;
-                    voyage.PlacesDisponibles -= dossierReservation.Participants.Count;
-                }
-                else
-                {
-                    dossierReservation.EtatDossierReservation = EtatDossierReservation.Refuse;
-                    dossierReservation.RaisonAnnulationDossier = RaisonAnnulationDossier.PlacesInsuffisantes;
-                }
+            if (dossierReservation.Accepter(placedisponible))
                 db.SaveChanges();
-            }
+            else
+                return BadRequest();
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(dossierReservation.EtatDossierReservation);
         }
 
         // POST: api/DossierReservations
