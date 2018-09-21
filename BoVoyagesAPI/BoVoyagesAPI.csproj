@@ -98,7 +98,6 @@
     <Content Include="Front\Html\Destinations.html" />
     <Content Include="Front\Html\Participant.html" />
     <Content Include="Front\Html\Participants.html" />
-    <Content Include="Front\Html\Recherche.html" />
     <Content Include="Front\Html\Reservation.html" />
     <Content Include="Front\Html\Reservations.html" />
     <Content Include="Front\Html\Voyages.html" />
