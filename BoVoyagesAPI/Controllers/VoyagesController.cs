@@ -36,13 +36,14 @@ namespace BoVoyagesAPI.Controllers
 
         // GET: api/Voyages
         [Route("api/Voyages/search")]
-        public IQueryable<Voyage> GetRechercherVoyages(DateTime? dateDebut, DateTime? dateFin, string nom)
+        [HttpGet]
+        public IQueryable<Voyage> GetRechercherVoyages(DateTime? dateDebut, DateTime? dateFin, string destination)
         {
             return db.Voyages.Include(x => x.Destination)
-                .Where(x => x.Destination.Description.Contains(nom)
-                || x.Destination.Continent.Contains(nom)
-                || x.Destination.Pays.Contains(nom)
-                || x.Destination.Region.Contains(nom)
+                .Where(x => x.Destination.Description.Contains(destination)
+                || x.Destination.Continent.Contains(destination)
+                || x.Destination.Pays.Contains(destination)
+                || x.Destination.Region.Contains(destination)
                  || (x.DateAller > dateDebut
                 && x.DateRetour < dateFin));
         }

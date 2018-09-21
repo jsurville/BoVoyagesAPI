@@ -81,7 +81,7 @@
 
             </form>
             <div class="form-group actions">
-                <button class="btn btn-primary" onclick="return RechercheVoyage($('#DateDebut').val(), $('#DateDeFin').val(),$('#Destination').val());">Rechercher Voyages</button>
+                <button class="btn btn-primary" onclick="return RechercheVoyage($('#DateDebut').val(), $('#DateFin').val(),$('#Destination').val());">Rechercher Voyages</button>
                 <a href="/Front/Html/Voyages.html" class="btn btn-light">Annuler</a>
             </div>
         </div>
@@ -110,7 +110,6 @@
         }
 
         function RechercheVoyage(dateDebut, dateFin, destination) {
-
             $.ajax({
                 type: 'GET',
                 url: '/api/Voyages/search?dateDebut=' + dateDebut
