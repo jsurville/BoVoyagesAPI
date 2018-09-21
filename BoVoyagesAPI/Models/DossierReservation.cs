@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using BoVoyagesAPI.Services;
 
 namespace BoVoyagesAPI.Models
 {
@@ -68,6 +69,29 @@ namespace BoVoyagesAPI.Models
                 RaisonAnnulationDossier = RaisonAnnulationDossier.PlacesInsuffisantes;
             }
             return true;
+        }
+
+        public bool Annuler()
+        {
+            if (EtatDossierReservation == EtatDossierReservation.Clos
+                || EtatDossierReservation == EtatDossierReservation.Annule)
+                return false;           
+            EtatDossierReservation = EtatDossierReservation.Annule;
+
+            if (EtatDossierReservation != EtatDossierReservation.Refuse)
+            {
+                if (EtatDossierReservation == EtatDossierReservation.Accepte)
+                {
+                    if (Assurances.Where(x => x.TypeAssurance == TypeAssurance.Annulation).Count() > 0)
+                    {
+                        var rembourser = new CarteBancaireService().Rembourser(NumeroCarteBancaire,
+                            PrixTotal);
+                    }
+                }
+                RaisonAnnulationDossier = RaisonAnnulationDossier.Client;
+            }
+
+                return true;
         }
     }
 
