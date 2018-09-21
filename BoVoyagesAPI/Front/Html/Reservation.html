@@ -93,6 +93,7 @@
             </ul>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script>
         function Valider() {
@@ -116,12 +117,12 @@
                 ClientId: $('#Client').val(),
                 Assurances: [assurance]
             };
-            console.log(reservation);
+
             $.ajax({
                 type: 'POST',
                 url: '/api/DossierReservations',
                 data: reservation,
-                dataType:"json",
+                dataType: "json",
                 success: function () {
                     window.location.href = '/Front/Html/Reservations.html';
                 },
@@ -137,11 +138,12 @@
                 success: function (voyages) {
                     var select = $("#Voyage");
                     select.empty();
-                    select.append($('<option></option>')); 
+                    select.append($('<option></option>'));
                     for (voyage of voyages) {
                         var option = $('<option></option>');
                         option.val(voyage.Id);
-                        option.text(voyage.Destination.Pays);
+                        option.text(voyage.Destination.Pays + ' ' +
+                            moment(voyage.DateAller).format('DD/MM/YYYY'));
                         select.append(option);
                     }
                 }
@@ -172,13 +174,13 @@
                     console.log(assurances);
                     var select = $("#Assurance");
                     select.empty();
-                    select.append($('<option></option>')); 
+                    select.append($('<option></option>'));
                     for (assurance of assurances) {
                         var option = $('<option></option>');
                         option.val(assurance.Id);
                         var typeAssurance = '';
                         if (assurance.TypeAssurance == 1)
-                             typeAssurance = 'Annulation';
+                            typeAssurance = 'Annulation';
                         option.text(typeAssurance);
                         select.append(option);
                     }
