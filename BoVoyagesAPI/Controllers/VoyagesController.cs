@@ -80,10 +80,15 @@ namespace BoVoyagesAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Voyages.Add(voyage);
-            db.SaveChanges();
+            if (voyage.DateAller > DateTime.Now.AddDays(3) && voyage.DateRetour > voyage.DateAller.AddDays(2) )
+            {
+                db.Voyages.Add(voyage);
+                db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = voyage.Id }, voyage);
+                return CreatedAtRoute("DefaultApi", new { id = voyage.Id }, voyage);
+            } else
+                return BadRequest("Mauvaise Date");
+
         }
 
         // DELETE: api/Voyages/5
