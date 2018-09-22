@@ -127,7 +127,7 @@
                 $.bsAlert.confirm("Es-tu sûr?", () => {
                     
                     let idDestination = divDestination.data("id");
-                    console.log(idDestination);
+                   
                     Supprimer(idDestination);
                 });
             });
@@ -159,7 +159,7 @@
                     LoadDestinations();
                 },
                 error: function (erreur) {
-                    console.log(erreur);
+                    
                     alert(erreur.responseJSON.Message);
                 }
             });

@@ -109,17 +109,22 @@
                     alert("En cours");
                     let div = buttonModif.closest('.Client');  
                     var nom = div.find('#Nom');
-                    var input = $('<input type="text"/>').val(nom.text());
-                    div.append(input);
-                    input.focus();
-                    input.select();
+                    var date = div.attr('data-date');
 
-                    var buttonEnregistrer = $('<button class="btn btn-primary btn-sm Catgorie"> Enregistrer </button> ');
+                    var input = $('<input type="text"/>').val(nom.text());
+                    var dateNaissance = $('<select type="date"/>').val(date);
+                    console.log(dateNaissance);
+                    div.append(input);
+                    div.append(date);
+                    //input.focus();
+                    //input.select();
+
+                    var buttonEnregistrer = $('<button class="btn btn-primary btn-sm Client"> Enregistrer </button> ');
                     div.append(buttonEnregistrer);
                     buttonEnregistrer.on('click', function () {
                         EnregistrerModification(div);
                     })
-                    var buttonAnnuler = $('<button class="btn btn-default btn-sm Catgorie"> Annuler </button> ');
+                    var buttonAnnuler = $('<button class="btn btn-default btn-sm Client"> Annuler </button> ');
                     div.append(buttonAnnuler);
                     buttonAnnuler.on('click', function () {
                         LoadClients()
@@ -127,9 +132,34 @@
                 }
 
                 function EnregistrerModification(divClient) {
-                    let idClient= divClient.data('id');
+                    //let div = $(this).closest(".Client");
+                    
+                    let idClient = divClient.data('id');
                     let nomClient = divClient.find('input').val();
-                    LoadClients();                    
+                    //let dateNaissance = divClient.data('date');
+                   // console.log(dateNaissance);
+                    let client = {
+                        Id: idClient,
+                        Nom: divClient.find('input').val(),
+                        Prenom: divClient.find('#Prenom').val(),
+                        Email: divClient.find('#Email').val(),
+                        Telephone: divClient.find('#Email').val(),
+                        Adresse: divClient.find('#Adresse').val(),
+                        DateNaissance: divClient.data('date'),
+                    }
+
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/api/Clients/' + idClient,
+                        data: client,
+                        success: function () {
+                           
+                            LoadClients();
+                            // RemplirDivCategorie(divCategorie, { ID: idCategorie, Nom: nomCategorie });
+                        }
+                    });
+                                       
                 }
 
                 function SupprimerClient(idClient) {
@@ -169,7 +199,7 @@
                         for (client of clients) {
                             let divClient = $('<div class="Client alert alert-info col-12"> </div>');
                             let idClient = divClient.attr("data-id", client.Id);
-                            console.log(idClient);
+                            let dateClient = divClient.attr("data-date", client.DateNaissance);
                             var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
                             buttonDelete.on('click', function () {
                                 // Affichage d'une confirmation
@@ -179,7 +209,7 @@
                                 $.bsAlert.confirm("Es-tu sûr?", () => {
                                     let div = $(this).closest(".Client");
                                     let idClient = div.attr("data-id");
-                                    console.log(idClient);
+                                    
                                     SupprimerClient(idClient);
                                 });
                             });
@@ -196,13 +226,13 @@
                             if (client.Civilite == 1) {
                                 client.Civilite = "Mme";
                             }
-                            divClient.append($('<label class="col-1"></label>').text(client.Civilite));
+                            divClient.append($('<label class="col-1" id="Civilite"></label>').text(client.Civilite));
                             divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
-                            divClient.append($('<label class="col-1"></label>').text(client.Prenom));
-                            divClient.append($('<label class="col-2"></label>').text(client.Email));
-                            divClient.append($('<label class="col-1"></label>').text(client.Telephone));
-                            divClient.append($('<label class="col-2"></label>').text(client.Adresse));
-                            divClient.append($('<label class="col-2"></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
+                            divClient.append($('<label class="col-1  id="Prenom""></label>').text(client.Prenom));
+                            divClient.append($('<label class="col-2  id="Email""></label>').text(client.Email));
+                            divClient.append($('<label class="col-1  id="Telephone""></label>').text(client.Telephone));
+                            divClient.append($('<label class="col-2  id="Adresse""></label>').text(client.Adresse));
+                            divClient.append($('<label class="col-2  id="DateNaissance""></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
                             divListeClients.append(divClient);
                         }
                     }
