@@ -50,7 +50,7 @@
                 <li><a href="/Front/html/Client.html" class="btn btn-primary">Ajouter un Nouveau Client</a></li>
             </ul>
         </div>
-        <div>
+        <div id="champsClients">
             <label class="col-1">Mr/Mme</label>
             <label class="col-1">Nom</label>
             <label class="col-1">Prénom</label>
@@ -58,6 +58,10 @@
             <label class="col-1">Tel.</label>
             <label class="col-2">Adresse</label>
             <label class="col-2">Date de Naissance</label>
+
+        </div>
+
+        <div id="modifClient" class="col-12">
 
         </div>
         <div id="listeClients" class="col-12">
@@ -68,7 +72,7 @@
 
         <div class="container-fluid">
 
-            <form >
+            <form>
                 <div class="form-group col-3">
                     <label for="Client"></label>
                     <input rows="3" type="text" class="form-control" id="rechercheClient" />
@@ -78,11 +82,11 @@
                     <a href="/Front/Html/Clients.html" class="btn btn-light">Annuler</a>
                 </div>
             </form>
-            
-            
+
+
 
         </div>
-        
+
     </div>
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -106,27 +110,50 @@
                 }
 
                 function ModifierClient(buttonModif) {
-                    alert("En cours");
-                    let div = buttonModif.closest('.Client');  
-                    var nom = div.find('#Nom');
-                    var date = div.attr('data-date');
+                    //alert("En cours");
+                    let divClient = buttonModif.closest('.Client');  
 
-                    var input = $('<input type="text"/>').val(nom.text());
-                    var dateNaissance = $('<select type="date"/>').val(date);
-                    console.log(dateNaissance);
-                    div.append(input);
-                    div.append(date);
-                    //input.focus();
-                    //input.select();
+                    var civilite = divClient.attr('data-civilite');
+                    var nom = divClient.find('#Nom');
+                    var date = divClient.attr('data-date');
+                    var prenom = divClient.attr('data-prenom');
+                    var email = divClient.attr('data-email');
+                    var telephone = divClient.attr('data-telephone');
+                    var adresse = divClient.attr('data-adresse');
+
+                    
+
+                    var inputCiviliteMme = $('<input type="radio" name="choix" class="civilite" id="mme" value="1" /> Mme');
+                    var inputCiviliteMr = $(' <input type="radio" name="choix" class="civilite" id="mr" value="2" /> Mr');
+                    var input = $('<input class="form-group col-3" type="text"/>').val(nom.text());
+                    var inputPrenom = $('<input class="form-group col-3" id="Prenom" type="text"/>').val(prenom);
+                    var inputEmail = $('<input class="form-group col-2" id="Email" type="text"/>').val(email);
+                    var inputTelephone = $('<input class="form-group col-2"  id="Telephone" type="text"/>').val(telephone);
+                    var inputAdresse = $('<input class="form-group col-5" id="Adresse" type="text"/>').val(adresse);
+                    var dateNaissance = $('<input class="form-group col-3" id="DateNaissance" style="float:right" type="date"/>').val(date);
+
+                    //divClient.append(inputCiviliteMme);
+                   // divClient.append(inputCiviliteMr);
+                    divClient.append(input);
+                    divClient.append(inputPrenom);
+                    divClient.append(inputEmail);
+                    divClient.append(inputTelephone);
+                    divClient.append(inputAdresse);
+                    divClient.append(dateNaissance);
+                    input.focus();
+                    input.select();
+                    input.select();
+
 
                     var buttonEnregistrer = $('<button class="btn btn-primary btn-sm Client"> Enregistrer </button> ');
-                    div.append(buttonEnregistrer);
+                    divClient.append(buttonEnregistrer);
                     buttonEnregistrer.on('click', function () {
-                        EnregistrerModification(div);
+                        EnregistrerModification(divClient);
                     })
                     var buttonAnnuler = $('<button class="btn btn-default btn-sm Client"> Annuler </button> ');
-                    div.append(buttonAnnuler);
+                    divClient.append(buttonAnnuler);
                     buttonAnnuler.on('click', function () {
+                        divClient.empty();
                         LoadClients()
                     })
                 }
@@ -135,28 +162,40 @@
                     //let div = $(this).closest(".Client");
                     
                     let idClient = divClient.data('id');
-                    let nomClient = divClient.find('input').val();
-                    //let dateNaissance = divClient.data('date');
-                   // console.log(dateNaissance);
+                    let valeur = $('input[name=choix]:checked').val();
+                    if (valeur == 1) {
+                        valeur = "Mme"
+                    }
+                    if (valeur == 2) {
+                        valeur = "Mr"
+                    }
+                    
+                    console.log(divClient.find('input').val());
                     let client = {
                         Id: idClient,
+                        //Civilite: valeur,
                         Nom: divClient.find('input').val(),
                         Prenom: divClient.find('#Prenom').val(),
                         Email: divClient.find('#Email').val(),
-                        Telephone: divClient.find('#Email').val(),
+                        Telephone: divClient.find('#Telephone').val(),
                         Adresse: divClient.find('#Adresse').val(),
-                        DateNaissance: divClient.data('date'),
+                        DateNaissance: divClient.find('#DateNaissance').val(),
                     }
-
+                   
 
                     $.ajax({
                         type: 'PUT',
                         url: '/api/Clients/' + idClient,
                         data: client,
                         success: function () {
-                           
+                            alert("La modification a bien été effectuée");
                             LoadClients();
+                            divClient.select();
                             // RemplirDivCategorie(divCategorie, { ID: idCategorie, Nom: nomCategorie });
+                        },
+                        error: function (erreur) {
+                            console.log(erreur);
+                            alert(erreur.responseJSON.Message);
                         }
                     });
                                        
@@ -198,18 +237,25 @@
                     if (clients.length > 0) {
                         for (client of clients) {
                             let divClient = $('<div class="Client alert alert-info col-12"> </div>');
+
                             let idClient = divClient.attr("data-id", client.Id);
+                            let civilClient = divClient.attr("data-civilite", client.Civilite);
                             let dateClient = divClient.attr("data-date", client.DateNaissance);
-                            var buttonDelete = $('<button class="btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
+                            let nomCLient = divClient.attr("data-Nom", client.Nom);
+                            let prenomClient = divClient.attr("data-Prenom", client.Prenom);
+                            let emailClient = divClient.attr("data-Email", client.Email);
+                            var telephoneClient = divClient.attr("data-Telephone", client.Telephone);
+                            let adresseClient = divClient.attr("data-Adresse", client.Adresse);
+                           
+                            var buttonDelete = $('<button class=" btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
                             buttonDelete.on('click', function () {
                                 // Affichage d'une confirmation
                                 $.bsAlert.confirmTitle = 'Suppression';
                                 $.bsAlert.closeDisplay = 'Non';
                                 $.bsAlert.sureDisplay = 'Oui';
-                                $.bsAlert.confirm("Es-tu sûr?", () => {
+                                $.bsAlert.confirm("Etes-vous sûr?", () => {
                                     let div = $(this).closest(".Client");
                                     let idClient = div.attr("data-id");
-                                    
                                     SupprimerClient(idClient);
                                 });
                             });

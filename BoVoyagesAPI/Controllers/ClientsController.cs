@@ -50,12 +50,17 @@ namespace BoVoyagesAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Le Formulaire doit renseigner un Nom et une Date de Naissance");
             }
 
             if (id != client.Id)
             {
                 return BadRequest();
+            }
+
+            if (client.DateNaissance == null)
+            {
+                return BadRequest("Vous devez rentrer obligatoirement une Date de Naissance");
             }
 
             db.Entry(client).State = EntityState.Modified;
