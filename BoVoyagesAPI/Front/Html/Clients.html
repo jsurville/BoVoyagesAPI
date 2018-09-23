@@ -64,7 +64,7 @@
         <div id="modifClient" class="col-12">
 
         </div>
-        <div id="listeClients" class="col-12">
+        <div id="listeClients" class="class="form-group" col-12">
 
         </div>
 
@@ -154,7 +154,7 @@
                             divClient.append($('<label class="col-1" id="Nom"></label>').text(client.Nom));
                             divClient.append($('<label class="col-1  id="Prenom""></label>').text(client.Prenom));
                             divClient.append($('<label class="col-2  id="Email""></label>').text(client.Email));
-                            divClient.append($('<label class="col-1  id="Telephone""></label>').text(client.Telephone));
+                            divClient.append($('<label class="col-2  id="Telephone""></label>').text(client.Telephone));
                             divClient.append($('<label class="col-2  id="Adresse""></label>').text(client.Adresse));
                             divClient.append($('<label class="col-2  id="DateNaissance""></label>').text(moment(client.DateNaissance).format('DD/MM/YYYY')));
                             divListeClients.append(divClient);
@@ -168,27 +168,33 @@
                 function ModifierClient(buttonModif) {
                     //alert("En cours");
                     let divClient = buttonModif.closest('.Client');  
+                    divClient.empty();
+                    let civilite = divClient.attr('data-civilite');
+                    let nom = divClient.attr('data-Nom');
+                    let date = divClient.attr('data-date');
+                    let prenom = divClient.attr('data-prenom');
+                    let email = divClient.attr('data-email');
+                    let telephone = divClient.attr('data-telephone');
+                    let adresse = divClient.attr('data-adresse');
 
-                    var civilite = divClient.attr('data-civilite');
-                    var nom = divClient.find('#Nom');
-                    var date = divClient.attr('data-date');
-                    var prenom = divClient.attr('data-prenom');
-                    var email = divClient.attr('data-email');
-                    var telephone = divClient.attr('data-telephone');
-                    var adresse = divClient.attr('data-adresse');
+                    let labelCivilite = $('<label for="Civilite">Civilité</label>');
+                    let labelMme = $('<label for="Mme">Mme</label>');
+                    let inputCiviliteMme = $('<input type="radio" name="choix" class="civilite" id="mme" value="1" /> Mme');
+                    let labelMr = $('<label for="Mme">Mr</label>');
+                    let inputCiviliteMr = $(' <input type="radio" name="choix" class="civilite" id="mr" value="2" /> Mr');
 
+                    let input = $('<input class="form-group col-3" id="NomClient" type="text"/>').val(nom);
+                    let inputPrenom = $('<input class="form-group col-3" id="Prenom" type="text"/>').val(prenom);
+                    let inputEmail = $('<input class="form-group col-2" id="Email" type="text"/>').val(email);
+                    let inputTelephone = $('<input class="form-group col-2"  id="Telephone" type="text"/>').val(telephone);
+                    let inputAdresse = $('<input class="form-group col-5" id="Adresse" type="text"/>').val(adresse);
+                    let dateNaissance = $('<input class="form-group col-3" id="DateNaissance" style="float:right" type="date"/>').val(date);
+
+                    divClient.append(labelCivilite);
+                    divClient.append(labelMme);
                     
-
-                    var inputCiviliteMme = $('<input type="radio" name="choix" class="civilite" id="mme" value="1" /> Mme');
-                    var inputCiviliteMr = $(' <input type="radio" name="choix" class="civilite" id="mr" value="2" /> Mr');
-                    var input = $('<input class="form-group col-3" id="NomClient" type="text"/>').val(nom.text());
-                    var inputPrenom = $('<input class="form-group col-3" id="Prenom" type="text"/>').val(prenom);
-                    var inputEmail = $('<input class="form-group col-2" id="Email" type="text"/>').val(email);
-                    var inputTelephone = $('<input class="form-group col-2"  id="Telephone" type="text"/>').val(telephone);
-                    var inputAdresse = $('<input class="form-group col-5" id="Adresse" type="text"/>').val(adresse);
-                    var dateNaissance = $('<input class="form-group col-3" id="DateNaissance" style="float:right" type="date"/>').val(date);
-
                     divClient.append(inputCiviliteMme);
+                    divClient.append(labelMr);
                     divClient.append(inputCiviliteMr);
                     divClient.append(input);
                     divClient.append(inputPrenom);
@@ -201,7 +207,7 @@
                     input.select();
 
 
-                    var buttonEnregistrer = $('<button class="btn btn-primary btn-sm Client"> Enregistrer </button> ');
+                    var buttonEnregistrer = $('<button style="float:right" class="btn btn-primary alert alert-primary btn-sm Client"> Enregistrer </button> ');
                     divClient.append(buttonEnregistrer);
                     buttonEnregistrer.on('click', function () {
                         EnregistrerModification(divClient);
