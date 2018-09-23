@@ -4,9 +4,11 @@ body {
     color:purple;
 }
 
-img {
-    opacity: 0.2;
 
+
+.menu {
+    /*position: fixed; /* Make it stick, even on scroll */
+    /* overflow: auto;*/
 }
 .container-fluid {
     margin-top: 25px;
@@ -53,7 +55,7 @@ button {
     float:right;
 }
 /* Loader */
-.loader {
+    .loader {
     border: 3px solid #f3f3f3;
     border-top: 3px solid #3498db;
     border-radius: 50%;

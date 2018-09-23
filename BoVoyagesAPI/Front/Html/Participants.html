@@ -115,7 +115,7 @@
                                 $.bsAlert.confirmTitle = 'Suppression';
                                 $.bsAlert.closeDisplay = 'Non';
                                 $.bsAlert.sureDisplay = 'Oui';
-                                $.bsAlert.confirm("Es-tu sûr?", () => {
+                                $.bsAlert.confirm("Etes-vous sûr?", () => {
                                     let divParticipant = $(this).closest(".Participant");
                                     let id = divParticipant.attr("data-id");
                                   
@@ -148,6 +148,7 @@
                 success: AfficherParticipants,
                 error: function (erreur) {
                     alert(erreur.responseJSON.Message);
+                    document.location.reload(true);
                 }
             });
             return false;
@@ -174,7 +175,7 @@
                         $.bsAlert.confirmTitle = 'Suppression';
                         $.bsAlert.closeDisplay = 'Non';
                         $.bsAlert.sureDisplay = 'Oui';
-                        $.bsAlert.confirm("Es-tu sûr?", () => {
+                        $.bsAlert.confirm("Etes-vous sûr?", () => {
                             let divParticipant = $(this).closest(".Participant");
                             let id = divParticipant.attr("data-id");
                             console.log(id);
@@ -202,8 +203,8 @@
                 url: '/api/Participants/' + idParticipant,
                 success: function () {
                     jQuery('#listeParticipants').empty();
-                    alert("Le Participant a été supprimé")
-                    
+                    alert("Le Participant a été supprimé");
+                    document.location.reload(true);
                     LoadParticipants();
                     
                 }
