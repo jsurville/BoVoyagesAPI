@@ -125,15 +125,15 @@
 
                     var inputCiviliteMme = $('<input type="radio" name="choix" class="civilite" id="mme" value="1" /> Mme');
                     var inputCiviliteMr = $(' <input type="radio" name="choix" class="civilite" id="mr" value="2" /> Mr');
-                    var input = $('<input class="form-group col-3" type="text"/>').val(nom.text());
+                    var input = $('<input class="form-group col-3" id="NomClient" type="text"/>').val(nom.text());
                     var inputPrenom = $('<input class="form-group col-3" id="Prenom" type="text"/>').val(prenom);
                     var inputEmail = $('<input class="form-group col-2" id="Email" type="text"/>').val(email);
                     var inputTelephone = $('<input class="form-group col-2"  id="Telephone" type="text"/>').val(telephone);
                     var inputAdresse = $('<input class="form-group col-5" id="Adresse" type="text"/>').val(adresse);
                     var dateNaissance = $('<input class="form-group col-3" id="DateNaissance" style="float:right" type="date"/>').val(date);
 
-                    //divClient.append(inputCiviliteMme);
-                   // divClient.append(inputCiviliteMr);
+                    divClient.append(inputCiviliteMme);
+                    divClient.append(inputCiviliteMr);
                     divClient.append(input);
                     divClient.append(inputPrenom);
                     divClient.append(inputEmail);
@@ -170,11 +170,11 @@
                         valeur = "Mr"
                     }
                     
-                    console.log(divClient.find('input').val());
+                    console.log(divClient.find('#NomClient').val());
                     let client = {
                         Id: idClient,
-                        //Civilite: valeur,
-                        Nom: divClient.find('input').val(),
+                        Civilite: valeur,
+                        Nom: divClient.find('#NomClient').val(),
                         Prenom: divClient.find('#Prenom').val(),
                         Email: divClient.find('#Email').val(),
                         Telephone: divClient.find('#Telephone').val(),
@@ -193,10 +193,8 @@
                             divClient.select();
                             // RemplirDivCategorie(divCategorie, { ID: idCategorie, Nom: nomCategorie });
                         },
-                        error: function (erreur) {
-                            console.log(erreur);
-                            alert(erreur.responseJSON.Message);
-                        }
+                        error: AfficheErreur
+
                     });
                                        
                 }
