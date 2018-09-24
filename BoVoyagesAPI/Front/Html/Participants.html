@@ -50,8 +50,12 @@
         <div>
             <ul class="toolbar">
                 <li><a href="/Front/html/Participant.html" class="btn btn-primary">Ajouter un Participant</a></li>
+                <li><a class="btn btn-default" onclick="Recherche()">Rechercher un Participant</a></li>
                 <br />
             </ul>
+        </div>
+        <div id="RechercheParticipants" class="container-fluid">
+
         </div>
         <div>
             <label class="col-1">N° Unique</label>
@@ -62,19 +66,7 @@
         </div>
         <div id="listeParticipants" class="col-12">
         </div>
-        <h1>Recherche</h1>
-        <div class="container-fluid">
-            <form>
-                <div class="form-group col-3">
-                    <label for="Client"></label>
-                    <input rows="3" type="text" class="form-control" id="rechercheParticipant" />
-                </div>
-            </form>
-            <div class="form-group actions">
-                <button class="btn btn-primary" onclick="return RechercherParticipant($('#rechercheParticipant').val());">Rechercher un Participant</button>
-                <a href="/Front/Html/Participants.html" class="btn btn-light">Annuler</a>
-            </div>
-        </div>
+        
     </div>
 
 
@@ -138,13 +130,38 @@
             })
         };
 
-        function RechercherParticipant(nomParticipant) {
-            console.log(nomParticipant);
+        function Recherche() {
+            let divRecherche = $('#RechercheParticipants');
+            let form = $('<form>');
+            let divChampsRecherche = $('<div class="form-group col-3">');
+            divChampsRecherche.append(form);
+            divRecherche.append(divChampsRecherche);
+            let label = $('<label for="Participant">Rechercher</label>');
+            let input = $('<input rows="3" type="text" class="form-control" id="rechercheParticipant" />');
+            divChampsRecherche.append(label);
+            divChampsRecherche.append(input);
+            input.select();
+            input.focus();
+            let nomRecherche = $('#rechercheParticipant');
+            let divActions = $('<div class="form-group actions">');
+            let boutonRechercher = $('<button class="btn btn-primary" >Valider</button>');
+            boutonRechercher.on('click', function () {
+                RechercherParticipant(nomRecherche);
+            })
+            divActions.append(boutonRechercher);
+
+            let boutonAnnulRecherche = $('<a href="/Front/Html/Participants.html" class="btn btn-light">Annuler</a>');
+            divActions.append(boutonAnnulRecherche);
+            divChampsRecherche.append(divActions);
+        }
+
+        function RechercherParticipant(nomRecherche) {
+            console.log(nomRecherche.val());
             var divListeParticipants = $('#listeParticipants');
             divListeParticipants.empty();
             $.ajax({
                 type: 'GET',
-                url: '/api/Participants/search?nom=' + nomParticipant,
+                url: '/api/Participants/search?nom=' + nomRecherche.val(),
                 success: AfficherParticipants,
                 error: function (erreur) {
                     alert(erreur.responseJSON.Message);
@@ -153,7 +170,6 @@
             });
             return false;
         }
-
 
         function AfficherParticipants(participants) {
             var divListeParticipants = $('#listeParticipants');
