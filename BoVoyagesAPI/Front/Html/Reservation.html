@@ -109,14 +109,26 @@
             let assurance = {
                 Id: $('#Assurance').val()
             };
-            let reservation = {
-                NumeroUnique: $('#NumeroUnique').val(),
-                NumeroCarteBancaire: $('#NumeroCarteBancaire').val(),
-                PrixParPersonne: $('#PrixParPersonne').val(),
-                VoyageId: $('#Voyage').val(),
-                ClientId: $('#Client').val(),
-                Assurances: [assurance]
-            };
+            if ($('#Assurance').val() != 0) {
+                let reservation = {
+                    NumeroUnique: $('#NumeroUnique').val(),
+                    NumeroCarteBancaire: $('#NumeroCarteBancaire').val(),
+                    PrixParPersonne: $('#PrixParPersonne').val(),
+                    VoyageId: $('#Voyage').val(),
+                    ClientId: $('#Client').val(),
+                    Assurances: [assurance]
+                };
+            } 
+                let reservation = {
+                    NumeroUnique: $('#NumeroUnique').val(),
+                    NumeroCarteBancaire: $('#NumeroCarteBancaire').val(),
+                    PrixParPersonne: $('#PrixParPersonne').val(),
+                    VoyageId: $('#Voyage').val(),
+                    ClientId: $('#Client').val()
+                   
+                };
+            
+
 
             $.ajax({
                 type: 'POST',

@@ -166,28 +166,24 @@
             let divDestination = buttonModif.closest('.Destination');
             divDestination.empty();
             divDestination.attr('class="form-group"');
-            let continent = divDestination.attr('data-Continent');
-            let pays = divDestination.attr('data-Pays');
-            let region = divDestination.attr('data-Region');
-            let description = divDestination.attr('data-Description');
-
+            
             let labelContinent = $('<label for="Continent">Continent</label>');
-            let inputContinent = $('<input class="form-control col-3" id="NomContinent" type="text"/>').val(continent);
+            let inputContinent = $('<input class="form-control col-3" id="NomContinent" type="text"/>').val(divDestination.attr('data-Continent'));
             divDestination.append(labelContinent);
             divDestination.append(inputContinent);
 
             let labelPays = $('<label for="Pays">Pays</label>');
-            let inputPays = $('<input class="form-control col-3" id="NomPays" type="text"/>').val(pays);
+            let inputPays = $('<input class="form-control col-3" id="NomPays" type="text"/>').val(divDestination.attr('data-Pays'));
             divDestination.append(labelPays);
             divDestination.append(inputPays);
 
             let labelRegion = $('<label for="Region">Region</label>');
-            let inputRegion = $('<input class="form-control col-3" id="NomRegion" type="text"/>').val(region);
+            let inputRegion = $('<input class="form-control col-3" id="NomRegion" type="text"/>').val(divDestination.attr('data-Region'));
             divDestination.append(labelRegion);
             divDestination.append(inputRegion);
 
             let labelDescription = $('<label for="Description">Description</label>');
-            let inputDescription = $('<input class="form-control col-3" id="NomDescription" type="text"/>').val(description);
+            let inputDescription = $('<input class="form-control col-3" id="NomDescription" type="text"/>').val(divDestination.attr('data-Description'));
             divDestination.append(labelDescription);
             divDestination.append(inputDescription);       
 

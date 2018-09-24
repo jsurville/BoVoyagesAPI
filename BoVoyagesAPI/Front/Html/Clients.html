@@ -104,14 +104,14 @@
                     if (clients.length > 0) {
                         for (client of clients) {
                             let divClient = $('<div class="Client container-fluid alert alert-info col-12"> </div>');
-                            let idClient = divClient.attr("data-id", client.Id);
-                            let civilClient = divClient.attr("data-civilite", client.Civilite);
-                            let dateClient = divClient.attr("data-date", client.DateNaissance);
-                            let nomCLient = divClient.attr("data-Nom", client.Nom);
-                            let prenomClient = divClient.attr("data-Prenom", client.Prenom);
-                            let emailClient = divClient.attr("data-Email", client.Email);
-                            var telephoneClient = divClient.attr("data-Telephone", client.Telephone);
-                            let adresseClient = divClient.attr("data-Adresse", client.Adresse);
+                            divClient.attr("data-id", client.Id);
+                            divClient.attr("data-civilite", client.Civilite);
+                            divClient.attr("data-date", client.DateNaissance);
+                            divClient.attr("data-Nom", client.Nom);
+                            divClient.attr("data-Prenom", client.Prenom);
+                            divClient.attr("data-Email", client.Email);
+                            divClient.attr("data-Telephone", client.Telephone);
+                            divClient.attr("data-Adresse", client.Adresse);
 
                             var buttonDelete = $('<button class=" btn btn-danger btn-sm" style="float:right"><i class="fas fa-trash"></i></button>');
                             buttonDelete.on('click', function () {
