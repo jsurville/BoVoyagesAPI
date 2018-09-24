@@ -156,8 +156,8 @@
                 function ModifierClient(buttonModif) {
                     let divClient = buttonModif.closest('.Client');  
                     divClient.empty();
-                    divClient.attr('style="border:solid 1px blue" class="form-group"');
-                    let civilite = divClient.attr('data-civilite');
+                    divClient.attr('class="form-group"');
+                    //let civilite = divClient.attr('data-civilite');
                     let nom = divClient.attr('data-Nom');
                     let date = divClient.attr('data-date');
                     let prenom = divClient.attr('data-prenom');
@@ -208,8 +208,7 @@
                     divClient.append(dateNaissance);
                     input.focus();
                     input.select();
-                    input.select();
-
+                    
                     let divBoutons = $('<div class="btn btn-default alert alert-default col-12">');
                     var buttonEnregistrer = $('<button style="float:right" class="btn btn-primary alert alert-primary btn-sm "> Valider </button> ');
                     

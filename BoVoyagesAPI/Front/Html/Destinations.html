@@ -113,11 +113,23 @@
         function RemplirDivDestination(divDestination, destination) {
             divDestination.empty();
             divDestination.data('id', destination.Id);
+
+            let continent = divDestination.attr("data-Continent", destination.Continent);
+            let pays = divDestination.attr("data-Pays", destination.Pays);
+            let region = divDestination.attr("data-Region", destination.Region);
+            let description = divDestination.attr("data-Description", destination.Description);
+
+
             divDestination.append($('<label class="col-1"></label>').text(destination.Id));
             divDestination.append($('<label class="col-2"></label>').text(destination.Continent));
             divDestination.append($('<label class="col-2"></label>').text(destination.Pays));
             divDestination.append($('<label class="col-2"></label>').text(destination.Region));
             divDestination.append($('<label class="col-4"></label>').text(destination.Description));
+
+            var bouttonModif = $('<button class="btn btn-primary btn-sm" style="float:right"><i class="fas fa-edit"></i></button>');
+            bouttonModif.on('click', function () {
+                ModifierDestination($(this));
+            });
 
             var boutonSupprimer = $('<button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>');
             boutonSupprimer.on('click', function () {
@@ -131,6 +143,7 @@
                     Supprimer(idDestination);
                 });
             });
+            divDestination.append(bouttonModif);
             divDestination.append(boutonSupprimer);
         }
 
@@ -146,6 +159,74 @@
                     LoadCategories();
                     $('#Nom').val('');
                 }
+            });
+        }
+
+        function ModifierDestination(buttonModif) {
+            let divDestination = buttonModif.closest('.Destination');
+            divDestination.empty();
+            divDestination.attr('class="form-group"');
+            let continent = divDestination.attr('data-Continent');
+            let pays = divDestination.attr('data-Pays');
+            let region = divDestination.attr('data-Region');
+            let description = divDestination.attr('data-Description');
+
+            let labelContinent = $('<label for="Continent">Continent</label>');
+            let inputContinent = $('<input class="form-control col-3" id="NomContinent" type="text"/>').val(continent);
+            divDestination.append(labelContinent);
+            divDestination.append(inputContinent);
+
+            let labelPays = $('<label for="Pays">Pays</label>');
+            let inputPays = $('<input class="form-control col-3" id="NomPays" type="text"/>').val(pays);
+            divDestination.append(labelPays);
+            divDestination.append(inputPays);
+
+            let labelRegion = $('<label for="Region">Region</label>');
+            let inputRegion = $('<input class="form-control col-3" id="NomRegion" type="text"/>').val(region);
+            divDestination.append(labelRegion);
+            divDestination.append(inputRegion);
+
+            let labelDescription = $('<label for="Description">Description</label>');
+            let inputDescription = $('<input class="form-control col-3" id="NomDescription" type="text"/>').val(description);
+            divDestination.append(labelDescription);
+            divDestination.append(inputDescription);       
+
+            let divBoutons = $('<div class="btn btn-default alert alert-default col-12">');
+            var bouttonEnregistrer = $('<button style="float:right" class="btn btn-primary alert alert-primary btn-sm "> Valider </button> ');
+            inputContinent.select();
+            bouttonEnregistrer.on('click', function () {
+                EnregistrerModification(divDestination);
+            })
+            var bouttonAnnuler = $('<button style="float:right" class="btn btn-default btn-sm "> Annuler </button> ');
+            divBoutons.append(bouttonEnregistrer);
+            divBoutons.append(bouttonAnnuler);
+            divDestination.append(divBoutons);
+            bouttonAnnuler.on('click', function () {
+                divDestination.empty();
+                LoadDestinations();
+            })
+        }
+
+        function EnregistrerModification(divDestination) {
+            let idDestination = divDestination.data('id');
+            let destination = {
+                Id: idDestination,
+                Continent: divDestination.find('#NomContinent').val(),
+                Pays: divDestination.find('#NomPays').val(),
+                Region: divDestination.find('#NomRegion').val(),
+                Description: divDestination.find('#NomDescription').val()
+            }
+            $.ajax({
+                type: 'PUT',
+                url: '/api/Destinations/' + idDestination,
+                data: destination,
+                success: function () {
+                    alert("La modification a bien été effectuée");
+                    LoadDestinations();
+                    divDestination.select();
+                    // RemplirDivCategorie(divCategorie, { ID: idCategorie, Nom: nomCategorie });
+                },
+                error: AfficheErreur
             });
         }
 
