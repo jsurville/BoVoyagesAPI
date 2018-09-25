@@ -65,7 +65,7 @@
             <label class="col-2">Adresse</label>
             <label class="col-2">Date de Naissance</label>
         </div>
-        <div id="listeClients" class="container-fluid form-group">
+        <div id="listeClients" class="container-fluid">
 
         </div>
 
@@ -275,7 +275,6 @@
                     boutonRechercher.on('click', function () {
                         RechercherClient(nomRecherche);
                     })
-                    alert("En cours");
                     divActions.append(boutonRechercher);
 
                     let boutonAnnulRecherche = $('<a href="/Front/Html/Clients.html" class="btn btn-light">Annuler</a>');
@@ -286,7 +285,7 @@
                 function RechercherClient(nomRecherche) {
                     var divListeClients = $('#listeClients');
                     divListeClients.empty();
-                    console.log(nomRecherche.val())
+                   
                     $.ajax({
                         type: 'GET',
                         url: '/api/Clients/search?nom=' + nomRecherche.val(),
