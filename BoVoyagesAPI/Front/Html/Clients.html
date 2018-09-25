@@ -165,9 +165,9 @@
                     let labelAdresse = $('<label for="Adresse">Adresse</label>');
                     let inputAdresse = $('<input class="form-control  col-5" id="Adresse" type="text"/>').val(divClient.attr('data-adresse'));
                     let labelDateNaissance = $('<label for="DateNaissance">Date de Naissance</label>');
-                    let dateNaissance = $('<input class="form-control col-4" id="DateNaissance" type="date"/>').val(moment(divClient.attr('data-date')));
+                    let dateNaissance = $('<input class="form-control col-4" id="DateNaissance" value="' + moment(divClient.attr('data-date')).format("YYYY-MM-DD") + '" type="date"/>');
 
-                    
+                    console.log(dateNaissance);
                     divClient.append(inputCiviliteMme);
                     divClient.append(labelMr);
                     divClient.append(inputCiviliteMr);
